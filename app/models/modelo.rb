@@ -1,3 +1,4 @@
 class Modelo < ApplicationRecord
-  belongs_to :controlador
+  has_many :controladores
+  has_many :usuarios
 end

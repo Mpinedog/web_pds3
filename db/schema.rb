@@ -21,21 +21,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_06_193356) do
     t.datetime "updated_at", null: false
     t.bigint "usuario_id", null: false
     t.bigint "controlador_id", null: false
-    t.bigint "metricas_id", null: false
+    t.bigint "metrica_id", null: false
     t.index ["controlador_id"], name: "index_casilleros_on_controlador_id"
-    t.index ["metricas_id"], name: "index_casilleros_on_metricas_id"
+    t.index ["metrica_id"], name: "index_casilleros_on_metrica_id"
     t.index ["usuario_id"], name: "index_casilleros_on_usuario_id"
   end
 
-  create_table "controladors", force: :cascade do |t|
+  create_table "controladores", force: :cascade do |t|
     t.string "nombre"
     t.boolean "casilleros_activos"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "modelo_id", null: false
     t.bigint "usuario_id", null: false
-    t.index ["modelo_id"], name: "index_controladors_on_modelo_id"
-    t.index ["usuario_id"], name: "index_controladors_on_usuario_id"
+    t.index ["modelo_id"], name: "index_controladores_on_modelo_id"
+    t.index ["usuario_id"], name: "index_controladores_on_usuario_id"
   end
 
   create_table "metricas", force: :cascade do |t|
@@ -69,10 +69,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_06_193356) do
     t.index ["modelo_id"], name: "index_usuarios_on_modelo_id"
   end
 
-  add_foreign_key "casilleros", "controladors"
-  add_foreign_key "casilleros", "metricas", column: "metricas_id"
+  add_foreign_key "casilleros", "controladores", column: "controlador_id"
+  add_foreign_key "casilleros", "metricas"
   add_foreign_key "casilleros", "usuarios"
-  add_foreign_key "controladors", "modelos"
-  add_foreign_key "controladors", "usuarios"
+  add_foreign_key "controladores", "modelos"
+  add_foreign_key "controladores", "usuarios"
   add_foreign_key "usuarios", "modelos"
 end

@@ -1,6 +1,6 @@
-class CreateControladors < ActiveRecord::Migration[7.1]
+class CreateControladores < ActiveRecord::Migration[7.1]
   def change
-    create_table :controladors do |t|
+    create_table :controladores do |t|
       t.string :nombre
       t.boolean :casilleros_activos
 
