@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sign1: MyString
+  sign2: MyString
+  sign3: MyString
+  sign4: MyString
+  sign5: MyString
+  sign6: MyString
+  controlador: one
+
+two:
+  sign1: MyString
+  sign2: MyString
+  sign3: MyString
+  sign4: MyString
+  sign5: MyString
+  sign6: MyString
+  controlador: two
