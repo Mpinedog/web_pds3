@@ -1,0 +1,25 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Card for Viewing Controladores -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Ver Controladores</h5>
+          <p class="card-text">Consulta la lista de controladores y ve los detalles de cada uno.</p>
+          <%= link_to 'Ver Controladores', controladores_path, class: 'btn btn-primary mt-3' %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card for Creating a New Controlador -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Crear Nuevo Controlador</h5>
+          <p class="card-text">Añade un nuevo controlador a la lista.</p>
+          <%= link_to 'Crear Controlador', new_controlador_path, class: 'btn btn-success mt-3' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

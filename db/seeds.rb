@@ -4,7 +4,7 @@ require 'faker'
 # Limpiar la base de datos para evitar duplicados
 Usuario.destroy_all
 Modelo.destroy_all
-Controlador.destroy_all # Asegúrate de que esto esté en singular
+Controlador.destroy_all
 Casillero.destroy_all
 Metrica.destroy_all
 
@@ -20,15 +20,16 @@ Metrica.destroy_all
   )
 end
 
-# Crear Usuarios
+# Crear Usuarios usando Devise
 3.times do
   Usuario.create!(
-    mail: Faker::Internet.email,
+    email: Faker::Internet.unique.email,            # Campo `email` que Devise requiere
     username: Faker::Internet.username,
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    password: 'password', # Contraseña genérica para pruebas
-    modelo: Modelo.order("RANDOM()").first # Asigna un modelo aleatorio a cada usuario
+    password: 'password',                           # Contraseña para Devise
+    password_confirmation: 'password',              # Confirmación de contraseña
+    modelo: Modelo.order("RANDOM()").first          # Asigna un modelo aleatorio a cada usuario
   )
 end
 
@@ -43,11 +44,11 @@ end
 
 # Crear Controladores
 3.times do
-  Controlador.create!( # Asegúrate de usar `Controlador` en singular
+  Controlador.create!(
     nombre: Faker::Device.model_name,
     casilleros_activos: [true, false].sample,
-    usuario: Usuario.order("RANDOM()").first, # Asigna un usuario aleatorio a cada controlador
-    modelo: Modelo.order("RANDOM()").first    # Asigna un modelo aleatorio a cada controlador
+    usuario: Usuario.order("RANDOM()").first,
+    modelo: Modelo.order("RANDOM()").first
   )
 end
 
@@ -56,9 +57,9 @@ end
   Casillero.create!(
     apertura: [true, false].sample,
     clave: Faker::Alphanumeric.alphanumeric(number: 8),
-    usuario: Usuario.order("RANDOM()").first,             # Asigna un usuario aleatorio como dueño
-    controlador: Controlador.order("RANDOM()").first,     # Asigna un controlador aleatorio
-    metrica_id: Metrica.order("RANDOM()").first.id        # Asigna una métrica aleatoria usando su ID
+    usuario: Usuario.order("RANDOM()").first,
+    controlador: Controlador.order("RANDOM()").first,
+    metrica_id: Metrica.order("RANDOM()").first.id
   )
 end
 

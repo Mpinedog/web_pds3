@@ -9,6 +9,7 @@ gem 'bootstrap', '~> 5.1.3'
 gem 'jquery-rails' # Agrega jQuery, necesario para algunos componentes de Bootstrap
 gem 'bcrypt', '~> 3.1.7'
 gem 'faker'
+gem 'devise'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"

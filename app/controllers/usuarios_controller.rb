@@ -1,4 +1,5 @@
 class UsuariosController < ApplicationController
+
   def index
     @usuarios = Usuario.all
   end
@@ -9,7 +10,7 @@ class UsuariosController < ApplicationController
 
   def registro
     @usuario = Usuario.new
-    @modelos = Modelo.all # Lista de modelos para el formulario
+    @modelos = Modelo.all 
   end
 
   def create
@@ -40,7 +41,7 @@ class UsuariosController < ApplicationController
     @usuario.destroy
     redirect_to usuarios_path, notice: 'Usuario eliminado exitosamente.'
   end
-
+  
   private
 
   def usuario_params

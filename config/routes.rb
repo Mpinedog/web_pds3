@@ -1,15 +1,25 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Devise configuration for users
+  devise_for :usuarios
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Root paths for authenticated and unauthenticated users
+  devise_scope :usuario do
+    authenticated :usuario do
+      root 'controladores#index', as: :authenticated_root
+    end
+
+    unauthenticated do
+      root 'devise/sessions#new', as: :unauthenticated_root
+    end
+  end
+
+  # Standard configuration for controladores resource
+  resources :controladores, only: [:index, :new, :create, :show]
+
+  # Other resources
+  resources :modelos, only: [:index, :show, :new, :create]
+  resources :casilleros, only: [:index, :show, :new, :create]
+
+  # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Defines the root path route ("/")
-  # root "posts#index"
-  
-  root 'usuarios#registro'
-  get 'usuarios/registro', to: 'usuarios#registro', as: :registro_usuario
-  resources :usuarios, only: [:create]
-
 end

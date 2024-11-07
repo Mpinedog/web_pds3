@@ -1,16 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>SistemaAdministracion</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>Sistema de Administración</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+  <%= javascript_importmap_tags %> 
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="<%= usuario_signed_in? ? authenticated_root_path : unauthenticated_root_path %>">Sistema de Administración</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-  <body>
-    <%= yield %>
-  </body>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <%= link_to 'Modelos', modelos_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Casilleros', casilleros_path, class: 'nav-link' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Controladores', controladores_path, class: 'nav-link' %>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav">
+          <% if usuario_signed_in? %>
+            <li class="nav-item">
+              <%= link_to 'Cerrar sesión', destroy_usuario_session_path, class: 'nav-link' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Iniciar sesión', new_usuario_session_path, class: 'nav-link' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Registrarse', new_usuario_registration_path, class: 'nav-link' %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <%= yield %>
+</body>
 </html>
