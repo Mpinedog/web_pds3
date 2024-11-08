@@ -10,6 +10,9 @@ gem 'jquery-rails' # Agrega jQuery, necesario para algunos componentes de Bootst
 gem 'bcrypt', '~> 3.1.7'
 gem 'faker'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection' 
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"

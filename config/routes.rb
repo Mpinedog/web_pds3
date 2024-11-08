@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   # Devise configuration for users
-  devise_for :usuarios
+  devise_for :usuarios, controllers: {
+    registrations: "usuarios/registrations",
+    sessions: "usuarios/sessions",
+    omniauth_callbacks: "usuarios/omniauth_callbacks"
+  }
+
+  #OAuth configuration for Google
+  
 
   # Root paths for authenticated and unauthenticated users
   devise_scope :usuario do

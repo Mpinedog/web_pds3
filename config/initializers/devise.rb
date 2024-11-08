@@ -21,5 +21,8 @@ Devise.setup do |config|
 
   config.sign_out_via = :get
 
-  config.omniauth_path_prefix = '/my_engine/users/auth'
+  config.omniauth :google_oauth2, Rails.application.credentials.dig(:google, :client_id), Rails.application.credentials.dig(:google, :client_secret)
+  OmniAuth.config.allowed_request_methods = %i[get post]
+
+
 end

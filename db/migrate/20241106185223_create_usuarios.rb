@@ -6,6 +6,9 @@ class CreateUsuarios < ActiveRecord::Migration[7.1]
       t.string :first_name
       t.string :last_name
       t.boolean :super_user
+      t.string :full_name
+      t.string :uid
+      t.string :avatar_url
 
       t.timestamps
     end
