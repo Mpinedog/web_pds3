@@ -1,10 +1,11 @@
 class ModelosController < ApplicationController
+  before_action :set_modelo, only: [:show, :edit, :update, :destroy]
+
   def index
     @modelos = Modelo.all
   end
 
   def show
-    @modelo = Modelo.find(params[:id])
   end
 
   def new
@@ -21,11 +22,9 @@ class ModelosController < ApplicationController
   end
 
   def edit
-    @modelo = Modelo.find(params[:id])
   end
 
   def update
-    @modelo = Modelo.find(params[:id])
     if @modelo.update(modelo_params)
       redirect_to @modelo, notice: 'Modelo actualizado exitosamente.'
     else
@@ -34,14 +33,17 @@ class ModelosController < ApplicationController
   end
 
   def destroy
-    @modelo = Modelo.find(params[:id])
     @modelo.destroy
     redirect_to modelos_path, notice: 'Modelo eliminado exitosamente.'
   end
 
   private
 
+  def set_modelo
+    @modelo = Modelo.find(params[:id])
+  end
+
   def modelo_params
-    params.require(:modelo).permit(:sign1, :sign2, :sign3, :sign4, :sign5, :sign6)
+    params.require(:modelo).permit(:sign1, :sign2, :sign3, :sign4, :sign5, :sign6, archivos: [], figuras: [])
   end
 end

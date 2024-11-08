@@ -1,0 +1,25 @@
+<!-- app/views/modelos/show.html.erb -->
+<div class="container mt-5">
+  <h2>Detalles del Modelo</h2>
+
+  <% (1..6).each do |i| %>
+    <p><strong>Signo <%= i %>:</strong> <%= @modelo.send("sign#{i}") %></p>
+  <% end %>
+
+  <h3>Archivos Vinculados</h3>
+  <ul>
+    <% @modelo.archivos.each do |archivo| %>
+      <li><%= link_to archivo.filename, url_for(archivo) %></li>
+    <% end %>
+  </ul>
+
+  <h3>Figuras de Símbolos</h3>
+  <ul>
+    <% @modelo.figuras.each do |figura| %>
+      <li><%= image_tag figura, size: "100x100" %></li>
+    <% end %>
+  </ul>
+
+  <%= link_to 'Editar', edit_modelo_path(@modelo), class: 'btn btn-warning' %>
+  <%= link_to 'Volver a la Lista', modelos_path, class: 'btn btn-secondary' %>
+</div>

@@ -8,8 +8,30 @@ Controlador.destroy_all
 Casillero.destroy_all
 Metrica.destroy_all
 
-# Crear Modelos de Gestos
-3.times do
+# Crear un Modelo por Defecto para el Superusuario
+default_modelo = Modelo.create!(
+  sign1: "DEF1",
+  sign2: "DEF2",
+  sign3: "DEF3",
+  sign4: "DEF4",
+  sign5: "DEF5",
+  sign6: "DEF6"
+)
+
+# Crear el Superusuario Administrativo
+Usuario.create!(
+  email: 'admin@example.com',       # Email administrativo
+  username: 'admin',
+  first_name: 'Admin',
+  last_name: 'User',
+  password: '123123',               # Contraseña para el superusuario
+  password_confirmation: '123123',  # Confirmación de contraseña
+  super_user: true,                 # Atributo de superusuario
+  modelo: default_modelo            # Asigna el modelo por defecto
+)
+
+# Crear Modelos de Gestos adicionales
+2.times do
   Modelo.create!(
     sign1: Faker::Alphanumeric.alpha(number: 3),
     sign2: Faker::Alphanumeric.alpha(number: 3),
@@ -23,13 +45,13 @@ end
 # Crear Usuarios usando Devise
 3.times do
   Usuario.create!(
-    email: Faker::Internet.unique.email,            # Campo `email` que Devise requiere
+    email: Faker::Internet.unique.email,
     username: Faker::Internet.username,
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    password: 'password',                           # Contraseña para Devise
-    password_confirmation: 'password',              # Confirmación de contraseña
-    modelo: Modelo.order("RANDOM()").first          # Asigna un modelo aleatorio a cada usuario
+    password: 'password',
+    password_confirmation: 'password',
+    modelo: Modelo.order("RANDOM()").first
   )
 end
 
@@ -63,4 +85,4 @@ end
   )
 end
 
-puts "Seeding completado: 3 registros creados para cada entidad."
+puts "Seeding completado: 3 registros creados para cada entidad y un superusuario agregado."

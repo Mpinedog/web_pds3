@@ -1,0 +1,36 @@
+<div class="container mt-5">
+  <h2>Modelos Disponibles</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Signo 1</th>
+        <th>Signo 2</th>
+        <th>Signo 3</th>
+        <th>Signo 4</th>
+        <th>Signo 5</th>
+        <th>Signo 6</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @modelos.each do |modelo| %>
+        <tr>
+          <td><%= modelo.id %></td>
+          <td><%= modelo.sign1 %></td>
+          <td><%= modelo.sign2 %></td>
+          <td><%= modelo.sign3 %></td>
+          <td><%= modelo.sign4 %></td>
+          <td><%= modelo.sign5 %></td>
+          <td><%= modelo.sign6 %></td>
+          <td>
+            <%= link_to 'Ver', modelo_path(modelo), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Editar', edit_modelo_path(modelo), class: 'btn btn-warning btn-sm' %>
+            <%= link_to 'Eliminar', modelo_path(modelo), method: :delete, data: { confirm: '¿Está seguro?' }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Agregar Nuevo Modelo', new_modelo_path, class: 'btn btn-success' %>
+</div>

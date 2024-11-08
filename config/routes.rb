@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :casilleros, only: [:new, :create] # Casilleros anidados en controladores
   end
 
-  resources :modelos, only: [:index, :show, :new, :create]
+  resources :modelos
   resources :casilleros, only: [:index, :show] # Index y show de casilleros fuera de contexto de un controlador
 
   get "up" => "rails/health#show", as: :rails_health_check

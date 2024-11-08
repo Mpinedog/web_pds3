@@ -1,0 +1,25 @@
+<!-- app/views/modelos/new.html.erb -->
+<div class="container mt-5">
+  <h2>Crear Nuevo Modelo</h2>
+  <%= form_with(model: @modelo, local: true) do |f| %>
+    <% (1..6).each do |i| %>
+      <div class="mb-3">
+        <%= f.label "sign#{i}", "Símbolo #{i}", class: 'form-label' %>
+        <%= f.text_field "sign#{i}", class: 'form-control' %>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= f.label :archivos, 'Archivos', class: 'form-label' %>
+      <%= f.file_field :archivos, multiple: true, class: 'form-control' %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :figuras, 'Figuras (símbolos)', class: 'form-label' %>
+      <%= f.file_field :figuras, multiple: true, class: 'form-control' %>
+    </div>
+
+    <%= f.submit 'Crear Modelo', class: 'btn btn-primary' %>
+  <% end %>
+  <%= link_to 'Volver a la Lista de Modelos', modelos_path, class: 'btn btn-secondary mt-3' %>
+</div>
