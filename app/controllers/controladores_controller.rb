@@ -1,4 +1,6 @@
 class ControladoresController < ApplicationController
+  before_action :set_controlador, only: [:show, :edit, :update, :destroy]
+
   def index
     @controladores = Controlador.all
   end
@@ -40,6 +42,10 @@ class ControladoresController < ApplicationController
   end
 
   private
+
+  def set_controlador
+    @controlador = Controlador.find(params[:id])
+  end
 
   def controlador_params
     params.require(:controlador).permit(:nombre, :casilleros_activos, :usuario_id, :modelo_id)

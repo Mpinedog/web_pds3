@@ -1,0 +1,40 @@
+<h2>Editar Perfil</h2>
+
+<% if flash[:notice] %>
+  <div class="alert alert-success"><%= flash[:notice] %></div>
+<% elsif flash[:alert] %>
+  <div class="alert alert-danger"><%= flash[:alert] %></div>
+<% end %>
+
+<%= form_for(@usuario, url: usuario_path, method: :patch) do |f| %>
+  <div class="mb-3">
+    <%= f.label :username, 'Nombre de usuario', class: 'form-label' %>
+    <%= f.text_field :username, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :first_name, 'Nombre', class: 'form-label' %>
+    <%= f.text_field :first_name, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :last_name, 'Apellido', class: 'form-label' %>
+    <%= f.text_field :last_name, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :mail, 'Correo Electrónico', class: 'form-label' %>
+    <%= f.email_field :mail, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :modelo_id, 'Modelo Asociado (ID)', class: 'form-label' %>
+    <%= f.select :modelo_id, Modelo.all.collect { |m| [m.id, m.id] }, { include_blank: 'Seleccione un modelo' }, class: 'form-select' %>
+  </div>
+
+
+  <div class="d-grid gap-2">
+    <%= f.submit 'Guardar Cambios', class: 'btn btn-primary' %>
+  </div>
+<% end %>
+

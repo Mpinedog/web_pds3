@@ -1,10 +1,12 @@
 class CasillerosController < ApplicationController
+  before_action :set_controlador, only: [:show, :edit, :update, :destroy, :sincronizar]
+
   def index
     @casilleros = Casillero.all
   end
 
   def show
-    @casillero = Casillero.find(params[:id])
+    @casilleros = @controlador.casilleros || [] 
   end
 
   def new
@@ -12,9 +14,9 @@ class CasillerosController < ApplicationController
   end
 
   def create
-    @casillero = Casillero.new(casillero_params)
+    @casillero = @controlador.casilleros.build(casillero_params)
     if @casillero.save
-      redirect_to @casillero, notice: 'Casillero creado exitosamente.'
+      redirect_to controlador_path(@controlador), notice: 'Casillero agregado exitosamente.'
     else
       render :new
     end
@@ -39,9 +41,13 @@ class CasillerosController < ApplicationController
     redirect_to casilleros_path, notice: 'Casillero eliminado exitosamente.'
   end
 
+  def set_controlador
+    @controlador = Controlador.find(params[:id])
+  end
+
   private
 
   def casillero_params
-    params.require(:casillero).permit(:apertura, :clave, :usuario_id, :controlador_id, :metrica_id)
+    params.require(:controlador).permit(:nombre, :casilleros_activos, :usuario_id, :modelo_id)
   end
 end

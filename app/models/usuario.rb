@@ -18,7 +18,6 @@ class Usuario < ApplicationRecord
     usuario.modelo_id ||= 1
 
     
-    # Guarda sin validar otros campos
     usuario.save(validate: false)
     usuario
   end
