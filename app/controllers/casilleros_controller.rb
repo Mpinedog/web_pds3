@@ -50,4 +50,15 @@ class CasillerosController < ApplicationController
   def casillero_params
     params.require(:controlador).permit(:nombre, :casilleros_activos, :usuario_id, :modelo_id)
   end
+
+  def generar_contrasena
+    @casillero = Casillero.find(params[:id])
+    @casillero.contrasena = SecureRandom.hex(4)  
+    
+    if @casillero.save
+      redirect_to authenticated_root_path, notice: "Contraseña del casillero #{@casillero.id} actualizada con éxito."
+    else
+      redirect_to authenticated_root_path, alert: "Hubo un error al actaulizar la contraseña del casillero."
+    end
+  end
 end

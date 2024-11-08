@@ -1,0 +1,69 @@
+<h1 class="text-center mt-4">Bienvenido, <%= @usuario.email %>!</h1>
+
+<div class="container mt-5">
+  <!-- Perfil del usuario en una tarjeta -->
+  <section class="mb-4">
+    <div class="card">
+      <div class="card-header">
+        <h2>Perfil del Usuario</h2>
+      </div>
+      <div class="card-body">
+        <p><strong>Nombre:</strong> <%= @usuario.first_name %></p>
+        <p><strong>Email:</strong> <%= @usuario.email %></p>
+        <p><strong>Fecha de Creación:</strong> <%= @usuario.created_at.strftime("%d/%m/%Y") %></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estado de los casilleros -->
+  <section class="mb-4">
+    <h2>Estado de los Casilleros</h2>
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Estado</th>
+          <th>Ubicación</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @casilleros.each do |casillero| %>
+          <tr>
+            <td><%= casillero.id %></td>
+            <td><%= casillero.estado %></td>
+            <td><%= casillero.ubicacion %></td>
+            <td>
+              <%= button_to 'Generar Contraseña', generar_contrasena_casillero_path(casillero), method: :patch, class: "btn btn-warning", data: { confirm: "¿Seguro que deseas generar una nueva contraseña para el casillero #{casillero.id}?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Lista de Controladores -->
+  <section class="mb-4">
+    <h2>Lista de Controladores</h2>
+    <ul class="list-group">
+      <% @controladores.each do |controlador| %>
+        <li class="list-group-item">
+          <%= link_to controlador.nombre, controlador_path(controlador), class: "text-decoration-none" %> - <%= controlador.descripcion %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+  <!-- Lista de Modelos -->
+  <section class="mb-4">
+    <h2>Lista de Modelos</h2>
+    <ul class="list-group">
+      <% @modelos.each do |modelo| %>
+        <li class="list-group-item">
+          <%= link_to modelo.nombre, modelo_path(modelo), class: "text-decoration-none" %> - <%= modelo.descripcion %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+</div>
