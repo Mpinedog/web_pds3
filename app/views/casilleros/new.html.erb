@@ -1,0 +1,34 @@
+<h1 class="mb-4 text-center">Nuevo Casillero</h1>
+
+<div class="container d-flex justify-content-center">
+  <div class="col-md-6">
+    <%= form_with(model: @casillero, url: controlador_casilleros_path(@controlador), local: true) do |form| %>
+      <% if @casillero.errors.any? %>
+        <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading"><%= pluralize(@casillero.errors.count, "error") %> prohibieron que este casillero se guardara:</h4>
+          <ul>
+            <% @casillero.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= form.label :nombre, class: "form-label" %>
+        <%= form.text_field :nombre, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :estado, class: "form-label" %>
+        <%= form.select :estado, ['activo', 'inactivo', 'mantenimiento'], {}, class: "form-select" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.submit "Crear Casillero", class: "btn btn-primary w-100" %>
+      </div>
+    <% end %>
+
+    <%= link_to 'Volver a la Lista', controlador_casilleros_path(@controlador), class: "btn btn-secondary w-100" %>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<h1>Detalles del Casillero <%= @casillero.id %></h1>
+
+<p><strong>Nombre:</strong> <%= @casillero.nombre %></p>
+<p><strong>Estado:</strong> <%= @casillero.estado %></p>
+<p><strong>Ubicación:</strong> <%= @casillero.ubicacion %></p>
+<p><strong>Contraseña:</strong> <%= @casillero.contrasena %></p>
+
+<%= link_to 'Editar Casillero', edit_casillero_path(@casillero) %> |
+<%= link_to 'Volver a la Lista', casilleros_path %>

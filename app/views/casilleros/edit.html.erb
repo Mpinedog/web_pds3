@@ -1,0 +1,35 @@
+<h1>Editar Casillero</h1>
+
+<%= form_with(model: @casillero, url: casillero_path(@casillero), local: true) do |form| %>
+  <% if @casillero.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@casillero.errors.count, "error") %> prohibieron que este casillero se guardara:</h2>
+      <ul>
+        <% @casillero.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :nombre %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div class="field">
+    <%= form.label :estado %>
+    <%= form.select :estado, ['activo', 'inactivo', 'mantenimiento'] %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ubicacion %>
+    <%= form.text_field :ubicacion %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Actualizar Casillero" %>
+  </div>
+<% end %>
+
+<%= link_to 'Cancelar', casillero_path(@casillero) %>

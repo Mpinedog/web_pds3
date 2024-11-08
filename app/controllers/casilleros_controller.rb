@@ -1,5 +1,6 @@
 class CasillerosController < ApplicationController
-  before_action :set_controlador, only: [:show, :edit, :update, :destroy, :sincronizar]
+  before_action :set_controlador, only: [:index, :show, :edit, :update, :destroy]
+  before_action :authenticate_usuario!
 
   def index
     @casilleros = Casillero.all
@@ -10,7 +11,7 @@ class CasillerosController < ApplicationController
   end
 
   def new
-    @casillero = Casillero.new
+    @casillero = @controlador.casilleros.build
   end
 
   def create
@@ -42,13 +43,13 @@ class CasillerosController < ApplicationController
   end
 
   def set_controlador
-    @controlador = Controlador.find(params[:id])
-  end
+    @controlador = Controlador.find(params[:controlador_id])
+  end  
 
   private
 
   def casillero_params
-    params.require(:controlador).permit(:nombre, :casilleros_activos, :usuario_id, :modelo_id)
+    params.require(:casillero).permit(:nombre, :estado)
   end
 
   def generar_contrasena
