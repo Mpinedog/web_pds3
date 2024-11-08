@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_07_232340) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_07_152629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_07_232340) do
     t.boolean "casilleros_activos"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "modelo_id", null: false
+    t.bigint "modelo_id"
     t.bigint "usuario_id", null: false
     t.index ["modelo_id"], name: "index_controladores_on_modelo_id"
     t.index ["usuario_id"], name: "index_controladores_on_usuario_id"
@@ -63,9 +63,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_07_232340) do
     t.string "first_name"
     t.string "last_name"
     t.boolean "super_user"
+    t.string "full_name"
+    t.string "uid"
+    t.string "avatar_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "modelo_id", null: false
+    t.bigint "modelo_id"
     t.string "password_digest"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -77,8 +80,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_07_232340) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "provider"
-    t.string "uid"
     t.index ["email"], name: "index_usuarios_on_email", unique: true
     t.index ["modelo_id"], name: "index_usuarios_on_modelo_id"
     t.index ["reset_password_token"], name: "index_usuarios_on_reset_password_token", unique: true
