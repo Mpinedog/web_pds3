@@ -1,5 +1,5 @@
 class CasillerosController < ApplicationController
-  before_action :set_controlador, only: [:index, :show, :edit, :update, :destroy]
+  before_action :set_controlador, only: [:index, :show, :new, :create, :edit, :update, :destroy]
   before_action :authenticate_usuario!
 
   def index
@@ -42,15 +42,18 @@ class CasillerosController < ApplicationController
     redirect_to casilleros_path, notice: 'Casillero eliminado exitosamente.'
   end
 
-  def set_controlador
-    @controlador = Controlador.find(params[:controlador_id])
-  end  
-
   private
 
   def casillero_params
     params.require(:casillero).permit(:nombre, :estado)
   end
+
+  def set_controlador
+    @controlador = Controlador.find(params[:controlador_id]) 
+  rescue ActiveRecord::RecordNotFound
+    redirect_to controladores_path, alert: "Controlador no encontrado."
+  end  
+  
 
   def generar_contrasena
     @casillero = Casillero.find(params[:id])
