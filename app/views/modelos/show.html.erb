@@ -1,25 +1,30 @@
 <!-- app/views/modelos/show.html.erb -->
 <div class="container mt-5">
-  <h2>Detalles del Modelo</h2>
+  <h2>Detalles del Modelo <%= @modelo.id %></h2>
+  
+  <p><strong>Archivo .tflite:</strong> <%= @modelo.tflite_file.filename.to_s if @modelo.tflite_file.attached? %></p>
 
-  <% (1..6).each do |i| %>
-    <p><strong>Signo <%= i %>:</strong> <%= @modelo.send("sign#{i}") %></p>
+  <h3>Signos</h3>
+  <div class="row">
+    <% @modelo.signs.each do |sign| %>
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="card text-center">
+          <% if sign.image.attached? %>
+            <%= image_tag sign.image, class: 'card-img-top img-fluid', size: '150x150' %>
+          <% else %>
+            <p>No hay imagen disponible.</p>
+          <% end %>
+          
+          <div class="card-body">
+            <h5 class="card-title"><%= sign.sign_name %></h5>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% if current_usuario&.super_user? %>
+    <%= link_to 'Editar', edit_modelo_path(@modelo), class: 'btn btn-warning btn-sm' %>
+    <%= link_to 'Eliminar', modelo_path(@modelo), method: :delete, data: { turbo: false }, class: 'btn btn-danger' %>
   <% end %>
-
-  <h3>Archivos Vinculados</h3>
-  <ul>
-    <% @modelo.archivos.each do |archivo| %>
-      <li><%= link_to archivo.filename, url_for(archivo) %></li>
-    <% end %>
-  </ul>
-
-  <h3>Figuras de Símbolos</h3>
-  <ul>
-    <% @modelo.figuras.each do |figura| %>
-      <li><%= image_tag figura, size: "100x100" %></li>
-    <% end %>
-  </ul>
-
-  <%= link_to 'Editar', edit_modelo_path(@modelo), class: 'btn btn-warning' %>
-  <%= link_to 'Volver a la Lista', modelos_path, class: 'btn btn-secondary' %>
+  <%= link_to 'Volver a la Lista de Modelos', modelos_path, class: 'btn btn-secondary mt-3' %>
 </div>

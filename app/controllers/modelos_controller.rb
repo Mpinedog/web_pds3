@@ -1,4 +1,6 @@
 class ModelosController < ApplicationController
+  before_action :authenticate_usuario! 
+  before_action :authorize_super_user, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_modelo, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -10,12 +12,13 @@ class ModelosController < ApplicationController
 
   def new
     @modelo = Modelo.new
+    6.times { @modelo.signs.build } 
   end
 
   def create
     @modelo = Modelo.new(modelo_params)
     if @modelo.save
-      redirect_to @modelo, notice: 'Modelo creado exitosamente.'
+      redirect_to modelos_path, notice: 'Modelo creado exitosamente.'
     else
       render :new
     end
@@ -44,6 +47,13 @@ class ModelosController < ApplicationController
   end
 
   def modelo_params
-    params.require(:modelo).permit(:sign1, :sign2, :sign3, :sign4, :sign5, :sign6, archivos: [], figuras: [])
+    params.require(:modelo).permit(
+      :tflite_file, 
+      signs_attributes: [:id, :sign_name, :image, :_destroy]
+    )
+  end
+
+  def authorize_super_user
+    redirect_to(root_path, alert: "No tienes permiso para acceder a esta página.") unless current_usuario&.super_user?
   end
 end

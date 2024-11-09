@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_08_210837) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_09_142957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -85,6 +85,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_08_210837) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "signs", force: :cascade do |t|
+    t.string "sign_name"
+    t.bigint "modelo_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["modelo_id"], name: "index_signs_on_modelo_id"
+  end
+
   create_table "usuarios", force: :cascade do |t|
     t.string "mail"
     t.string "username"
@@ -119,5 +127,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_08_210837) do
   add_foreign_key "casilleros", "usuarios"
   add_foreign_key "controladores", "modelos"
   add_foreign_key "controladores", "usuarios"
+  add_foreign_key "signs", "modelos"
   add_foreign_key "usuarios", "modelos"
 end
