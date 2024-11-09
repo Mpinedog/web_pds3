@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'home/index'
   devise_for :usuarios, controllers: {
     registrations: "usuarios/registrations",
     sessions: "usuarios/sessions",
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
 
   devise_scope :usuario do
     authenticated :usuario do
-      root 'controladores#index', as: :authenticated_root
+      root 'home#index', as: :authenticated_root
     end
 
     unauthenticated do
@@ -17,12 +18,18 @@ Rails.application.routes.draw do
     end
   end
 
-  # Rutas para controladores con opción de sincronización y casilleros anidados
-  resources :controladores, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  # Declaración principal de casilleros antes de las rutas anidadas
+  resources :casilleros, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+    member do
+      patch :generar_contrasena  
+    end
+  end
+
+  resources :controladores do
+    resources :casilleros, only: [:new, :create]
     member do
       patch :sincronizar # Ruta para la acción de sincronización
     end
-    resources :casilleros, only: [:new, :create] # Casilleros anidados en controladores
   end
 
   resources :modelos 

@@ -44,8 +44,10 @@ class ControladoresController < ApplicationController
   private
 
   def set_controlador
-    @controlador = Controlador.find(params[:id])
-  end
+    @controlador = Controlador.find(params[:controlador_id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to controladores_path, alert: "Controlador no encontrado."
+  end  
 
   def controlador_params
     params.require(:controlador).permit(:nombre, :casilleros_activos, :usuario_id, :modelo_id)

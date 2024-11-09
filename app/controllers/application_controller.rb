@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:username, :first_name, :last_name, :super_user, :modelo_id])
   end
 
-  def after_sign_out_path_for(resource_or_scope)
-    new_usuario_session_path # Redirige a la página de inicio de sesión
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || authenticated_root_path
   end
 end

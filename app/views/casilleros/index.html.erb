@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <h2>Lista de Casilleros</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Controlador</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @casilleros.each do |casillero| %>
+        <tr>
+          <td><%= casillero.id %></td>
+          <td><%= casillero.usuario.try(:first_name) %></td>
+          <td><%= casillero.controlador.try(:nombre) %></td>
+          <td>
+            <%= link_to 'Ver', casillero_path(casillero), class: 'btn btn-primary btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Agregar Nuevo Casillero', new_casillero_path, class: 'btn btn-success' %>
+</div>
