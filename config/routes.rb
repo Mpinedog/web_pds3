@@ -22,7 +22,8 @@ Rails.application.routes.draw do
   resources :controladores do
     resources :casilleros
   end
-  
+
+  resources :metricas
 
   resources :casilleros do
     member do
