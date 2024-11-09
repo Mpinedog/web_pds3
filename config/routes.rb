@@ -18,19 +18,21 @@ Rails.application.routes.draw do
     end
   end
 
-  # Rutas para controladores con opción de sincronización y casilleros anidados
-  resources :controladores do
-    resources :casilleros
-  end
-
-  resources :metricas
-
-  resources :casilleros do
+  # Declaración principal de casilleros antes de las rutas anidadas
+  resources :casilleros, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     member do
       patch :generar_contrasena  
     end
   end
 
+  resources :controladores do
+    resources :casilleros, only: [:new, :create]
+    member do
+      patch :sincronizar # Ruta para la acción de sincronización
+    end
+  end
+
+  resources :metricas
   resources :modelos, only: [:index, :show, :new, :create]
 
   get "up" => "rails/health#show", as: :rails_health_check

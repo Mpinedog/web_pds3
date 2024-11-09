@@ -1,31 +1,26 @@
-<h1>Lista de Casilleros</h1>
-
-<%= link_to 'Nuevo Casillero', new_casillero_path, class: 'btn btn-primary' %>
-
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Estado</th>
-      <th>Ubicación</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @casilleros.each do |casillero| %>
+<div class="container mt-5">
+  <h2>Lista de Casilleros</h2>
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= casillero.id %></td>
-        <td><%= casillero.nombre %></td>
-        <td><%= casillero.estado %></td>
-        <td><%= casillero.ubicacion %></td>
-        <td>
-          <%= link_to 'Ver', casillero_path(casillero) %>
-          <%= link_to 'Editar', edit_casillero_path(casillero) %>
-          <%= link_to 'Eliminar', casillero_path(casillero), method: :delete, data: { confirm: '¿Estás seguro?' } %>
-          <%= button_to 'Generar Contraseña', generar_contrasena_casillero_path(casillero), method: :patch, data: { confirm: '¿Generar nueva contraseña?' } %>
-        </td>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Controlador</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @casilleros.each do |casillero| %>
+        <tr>
+          <td><%= casillero.id %></td>
+          <td><%= casillero.usuario.try(:first_name) %></td>
+          <td><%= casillero.controlador.try(:nombre) %></td>
+          <td>
+            <%= link_to 'Ver', casillero_path(casillero), class: 'btn btn-primary btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Agregar Nuevo Casillero', new_casillero_path, class: 'btn btn-success' %>
+</div>

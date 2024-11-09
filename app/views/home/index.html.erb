@@ -1,4 +1,4 @@
-<h1 class="text-center mt-4">Bienvenido, <%= @usuario.email %>!</h1>
+<h1 class="text-center mt-4">Bienvenido, <%= @usuario.email %></h1>
 
 <div class="container mt-5">
   <!-- Perfil del usuario en una tarjeta -->
@@ -31,8 +31,6 @@
         <% @casilleros.each do |casillero| %>
           <tr>
             <td><%= casillero.id %></td>
-            <td><%= casillero.estado %></td>
-            <td><%= casillero.ubicacion %></td>
             <td>
               <%= button_to 'Generar Contraseña', generar_contrasena_casillero_path(casillero), method: :patch, class: "btn btn-warning", data: { confirm: "¿Seguro que deseas generar una nueva contraseña para el casillero #{casillero.id}?" } %>
             </td>
@@ -48,7 +46,7 @@
     <ul class="list-group">
       <% @controladores.each do |controlador| %>
         <li class="list-group-item">
-          <%= link_to controlador.nombre, controlador_path(controlador), class: "text-decoration-none" %> - <%= controlador.descripcion %>
+          <%= link_to controlador.nombre, controlador_path(controlador), class: "text-decoration-none" %> 
         </li>
       <% end %>
     </ul>
@@ -60,7 +58,7 @@
     <ul class="list-group">
       <% @modelos.each do |modelo| %>
         <li class="list-group-item">
-          <%= link_to modelo.nombre, modelo_path(modelo), class: "text-decoration-none" %> - <%= modelo.descripcion %>
+          <%= link_to modelo.id, modelo_path(modelo), class: "text-decoration-none" %> 
         </li>
       <% end %>
     </ul>

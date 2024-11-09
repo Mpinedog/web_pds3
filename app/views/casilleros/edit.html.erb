@@ -1,35 +1,32 @@
-<h1>Editar Casillero</h1>
+<div class="container mt-5">
+  <h1 class="mb-4">Editar Casillero</h1>
 
-<%= form_with(model: @casillero, url: casillero_path(@casillero), local: true) do |form| %>
-  <% if @casillero.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@casillero.errors.count, "error") %> prohibieron que este casillero se guardara:</h2>
-      <ul>
-        <% @casillero.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+  <%= form_with(model: @casillero, url: casillero_path(@casillero), local: true) do |form| %>
+    <% if @casillero.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading"><%= pluralize(@casillero.errors.count, "error") %> prohibieron que este casillero se guardara:</h4>
+        <ul>
+          <% @casillero.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label :apertura, "Apertura", class: "form-label" %>
+      <%= form.select :apertura, [['Abierto', true], ['Cerrado', false]], {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :clave, "Clave de Acceso", class: "form-label" %>
+      <%= form.text_field :clave, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.submit "Actualizar Casillero", class: "btn btn-primary w-100" %>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :nombre %>
-    <%= form.text_field :nombre %>
-  </div>
-
-  <div class="field">
-    <%= form.label :estado %>
-    <%= form.select :estado, ['activo', 'inactivo', 'mantenimiento'] %>
-  </div>
-
-  <div class="field">
-    <%= form.label :ubicacion %>
-    <%= form.text_field :ubicacion %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit "Actualizar Casillero" %>
-  </div>
-<% end %>
-
-<%= link_to 'Cancelar', casillero_path(@casillero) %>
+  <%= link_to 'Cancelar', casillero_path(@casillero), class: "btn btn-secondary w-100 mt-2" %>
+</div>
