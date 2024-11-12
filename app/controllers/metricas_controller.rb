@@ -14,9 +14,8 @@ class MetricasController < ApplicationController
       hash[casillero.id] = casillero.metrica&.cant_cambios_contrasena || 0
     end
 
-    #@aperturas_promedio_por_dia = calcular_aperturas_promedio_por_dia
     @porcentaje_exito_aperturas = calcular_porcentaje_exito_aperturas
-    @casilleros_activos = @casilleros.where(estado: 'activo').count
+    @casilleros_abiertos = @casilleros.where(apertura: true).count
   end
 
   def show

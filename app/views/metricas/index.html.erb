@@ -6,14 +6,6 @@
     <div class="col-md-4">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Aperturas Promedio por Día</h5>
-          #<p class="card-text display-6"><%= @aperturas_promedio_por_dia %></p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card text-center">
-        <div class="card-body">
           <h5 class="card-title">Porcentaje de Éxito de Aperturas</h5>
           <p class="card-text display-6"><%= number_to_percentage(@porcentaje_exito_aperturas, precision: 2) %></p>
         </div>
@@ -22,8 +14,8 @@
     <div class="col-md-4">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Casilleros Activos</h5>
-          <p class="card-text display-6"><%= @casilleros_activos %></p>
+          <h5 class="card-title">Casilleros Abiertos</h5>
+          <p class="card-text display-6"><%= @casilleros_abiertos %></p>
         </div>
       </div>
     </div>
