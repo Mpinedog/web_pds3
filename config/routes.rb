@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :usuarios, only: [:index, :show, :edit, :update, :destroy] do
     collection do
-      get :registro # Ruta para el formulario de nuevo usuario
+      get :registro 
     end
   end
 
@@ -23,7 +23,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Declaración principal de casilleros antes de las rutas anidadas
   resources :casilleros, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     member do
       patch :generar_contrasena

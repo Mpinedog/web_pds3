@@ -1,0 +1,56 @@
+<div class="container mt-5">
+  <h1>Detalles del Usuario</h1>
+
+  <!-- Información del Usuario -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2>Información Personal</h2>
+      <p><strong>Nombre:</strong> <%= @usuario.first_name %></p>
+      <p><strong>Apellido:</strong> <%= @usuario.last_name %></p>
+      <p><strong>Email:</strong> <%= @usuario.email %></p>
+      <p><strong>Nombre de Usuario:</strong> <%= @usuario.username %></p>
+    </div>
+  </div>
+
+  <!-- Casilleros del Usuario -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2>Casilleros</h2>
+      <% if @casilleros.any? %>
+        <ul class="list-group">
+          <% @casilleros.each do |casillero| %>
+            <li class="list-group-item">
+              <strong>Nombre:</strong> <%= casillero.nombre %><br>
+              <strong>Clave:</strong> <%= casillero.clave %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No hay casilleros asociados.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Controladores del Usuario -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h2>Controladores</h2>
+      <% if @controladores.any? %>
+        <ul class="list-group">
+          <% @controladores.each do |controlador| %>
+            <li class="list-group-item">
+              <strong>Nombre:</strong> <%= controlador.nombre %><br>
+              <strong>Casilleros Activos:</strong> <%= controlador.casilleros_activos ? 'Sí' : 'No' %>
+              <br>
+              <%= link_to 'Ver Controlador', controlador_path(controlador), class: 'btn btn-primary btn-sm mt-2' %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No hay controladores asociados.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <%= link_to 'Volver a la Lista de Usuarios', usuarios_path, class: 'btn btn-secondary mt-3' %>
+</div>
