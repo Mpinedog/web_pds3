@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :controladores do
     resources :casilleros, only: [:new, :create, :destroy]
     member do
-      patch :sincronizar # Ruta para la acción de sincronización
+      get :sincronizar # Ruta para sincronizar un controlador con el ESP32
       post :asignar_casillero # Ruta para asignar un casillero existente
       delete :desasignar_casillero # Ruta para desasignar un casillero existente
     end

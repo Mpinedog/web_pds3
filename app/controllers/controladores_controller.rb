@@ -1,7 +1,8 @@
 class ControladoresController < ApplicationController
   before_action :authenticate_usuario! 
-  before_action :set_controlador, only: [:show, :edit, :update, :destroy, :asignar_casillero]
+  before_action :set_controlador, only: [:show, :edit, :update, :destroy, :asignar_casillero, :sincronizar ]
   before_action :authorize_user!, only: [:show, :edit, :update, :destroy, :asignar_casillero]
+  require 'base64'
 
   def index
     @controladores = current_usuario.controladores
@@ -53,6 +54,36 @@ class ControladoresController < ApplicationController
 
     redirect_to controlador_path(params[:id]), notice: 'Casillero desasignado exitosamente.'
   end
+
+  # Método para enviar la actualización de información al ESP32
+  def sincronizar
+    # Define el topic MQTT para enviar la información
+    topic = "sincronizar"
+  
+    # Construye el mensaje JSON con los datos del controlador
+    mensaje = {
+      id: @controlador.id,
+      modelo_id: @controlador.modelo_id,
+      casilleros: @controlador.casilleros.map { |casillero| { id: casillero.id, clave: casillero.clave } }
+    }
+  
+    # Añade el contenido del archivo .txt del modelo en Base64 si está adjunto
+    if @controlador.modelo&.txt_file&.attached?
+      contenido_archivo = @controlador.modelo.txt_file.download
+      contenido_base64 = Base64.encode64(contenido_archivo)
+      mensaje[:archivo_txt] = contenido_base64  # Agrega el archivo codificado al mensaje
+    else
+      mensaje[:archivo_txt] = nil  # Envía nil si no hay archivo adjunto
+    end
+  
+    # Publica el mensaje JSON al broker MQTT de HiveMQ
+    MQTT_CLIENT.publish(topic, mensaje.to_json)
+  
+    redirect_to controlador_path(@controlador), notice: 'Información sincronizada con el ESP32'
+  rescue => e
+    redirect_to controlador_path(@controlador), alert: "Error al sincronizar: #{e.message}"
+  end
+
 
   private
 

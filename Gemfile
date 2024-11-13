@@ -13,6 +13,7 @@ gem 'devise'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection' 
+gem 'mqtt'
 
 group :development do
   gem 'letter_opener'

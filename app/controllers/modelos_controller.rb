@@ -49,7 +49,7 @@ class ModelosController < ApplicationController
   def modelo_params
     params.require(:modelo).permit(
       :nombre,
-      :tflite_file, 
+      :txt_file, 
       signs_attributes: [:id, :sign_name, :image, :_destroy]
     )
   end

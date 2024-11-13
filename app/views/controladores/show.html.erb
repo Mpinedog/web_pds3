@@ -35,6 +35,6 @@
   <% else %>
     <p class="text-muted">No hay casilleros disponibles para asignar.</p>
   <% end %>
-
+  <%= link_to 'Sincronizar con ESP32', sincronizar_controlador_path(@controlador), method: :patch, class: 'btn btn-warning', data: { confirm: '¿Estás seguro de que deseas sincronizar este controlador con el ESP32?' } %>
   <%= link_to 'Volver a la Lista', controladores_path, class: 'btn btn-secondary mt-3' %>
 </div>
