@@ -1,0 +1,78 @@
+<h1 class="text-center mb-4">Dashboard de Superusuario</h1>
+
+<div class="container">
+  <!-- Resumen de estadísticas generales -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Cantidad de Usuarios</h5>
+          <p class="card-text display-6"><%= @cantidad_usuarios %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Porcentaje de Éxito de Aperturas</h5>
+          <p class="card-text display-6"><%= number_to_percentage(@porcentaje_exito_aperturas, precision: 2) %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Casilleros Abiertos</h5>
+          <p class="card-text display-6"><%= @casilleros_abiertos %></p>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="container">
+  <!-- Resumen de estadísticas generales parte 2 -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Total de cambios de contraseña</h5>
+          <p class="card-text display-6"><%= @total_cambios_contrasena %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Cantidad Controladores</h5>
+          <p class="card-text display-6"><%= @cantidad_controladores %></p>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+  <!-- Tabla de métricas por casillero -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Casillero</th>
+          <th scope="col">Aperturas</th>
+          <th scope="col">Intentos Fallidos</th>
+          <th scope="col">Cambios de Contraseña</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @casilleros.each do |casillero| %>
+          <tr>
+            <td><%= casillero.nombre %></td>
+            <td><%= @aperturas_por_casillero[casillero.id] || 0 %></td>
+            <td><%= @intentos_fallidos_por_casillero[casillero.id] || 0 %></td>
+            <td><%= @cambios_contrasena_por_casillero[casillero.id] || 0 %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

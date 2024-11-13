@@ -6,8 +6,6 @@ class SuperusuarioController < ApplicationController
 
         @cantidad_controladores = Controlador.count 
 
-        @cantidad_cambios_contraseña = 
-
         @aperturas_por_casillero = @casilleros.each_with_object({}) do |casillero, hash|
         hash[casillero.id] = casillero.metrica&.cant_aperturas || 0
         end

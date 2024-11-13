@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :superusuario
+  resources :superusuario, only: [:index]
   resources :modelos 
   resources :metricas 
   resources :casilleros, only: [:index, :show] # Index y show de casilleros fuera de contexto de un controlador
