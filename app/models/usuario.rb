@@ -29,5 +29,8 @@ class Usuario < ApplicationRecord
 
   def assign_model_to_controladores
     controladores.update_all(modelo_id: modelo_id)
+    controladores.each do |controlador|
+      SyncToEspService.new(controlador).call
+    end
   end
 end
