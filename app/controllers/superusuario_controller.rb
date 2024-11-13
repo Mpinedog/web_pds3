@@ -27,8 +27,8 @@ class SuperusuarioController < ApplicationController
     end
 
     def calcular_porcentaje_exito_aperturas
-        total_aperturas = @casilleros.sum { |casillero| casillero.metricas&.cant_aperturas.to_i }
-        total_intentos = total_aperturas + @casilleros.sum { |casillero| casillero.metricas&.cant_intentos_fallidos.to_i }
+        total_aperturas = @casilleros.sum { |casillero| casillero.metrica&.cant_aperturas.to_i }
+        total_intentos = total_aperturas + @casilleros.sum { |casillero| casillero.metrica&.cant_intentos_fallidos.to_i }
         total_intentos > 0 ? (total_aperturas / total_intentos.to_f * 100).round(2) : 0
     end
 
