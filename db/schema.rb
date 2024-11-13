@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_13_022332) do
     t.boolean "super_user", default: false, null: false
     t.string "full_name"
     t.string "uid"
+    t.string "provider"
     t.string "avatar_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

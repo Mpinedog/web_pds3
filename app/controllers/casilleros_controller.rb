@@ -73,7 +73,7 @@ class CasillerosController < ApplicationController
   
 
   def casillero_params
-    params.require(:casillero).permit(:nombre, :apertura, :clave, :controlador_id, :dueño_email)
+    params.require(:casillero).permit(:nombre, :clave, :controlador_id, :dueño_email, :usuario_id)
   end  
 
   def set_controlador

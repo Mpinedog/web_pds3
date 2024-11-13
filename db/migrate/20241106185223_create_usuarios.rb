@@ -8,6 +8,7 @@ class CreateUsuarios < ActiveRecord::Migration[7.1]
       t.boolean :super_user, default: false, null: false
       t.string :full_name
       t.string :uid
+      t.string :provider
       t.string :avatar_url
 
       t.timestamps

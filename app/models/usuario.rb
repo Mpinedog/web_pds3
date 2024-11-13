@@ -17,7 +17,6 @@ class Usuario < ApplicationRecord
     usuario = where(provider: auth.provider, uid: auth.uid).first_or_initialize
     usuario.email = auth.info.email if usuario.email.blank?
     usuario.password = Devise.friendly_token[0, 20] if usuario.new_record?
-    usuario.modelo_id ||= 1
 
     
     usuario.save(validate: false)

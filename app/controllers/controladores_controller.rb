@@ -17,7 +17,7 @@ class ControladoresController < ApplicationController
   end
 
   def create
-    @controlador = current_usuario.controladores.build(controlador_params) # Asocia automáticamente el controlador al usuario actual
+    @controlador = current_usuario.controladores.build(controlador_params) 
     if @controlador.save
       redirect_to @controlador, notice: 'Controlador creado exitosamente.'
     else
@@ -55,9 +55,7 @@ class ControladoresController < ApplicationController
     redirect_to controlador_path(params[:id]), notice: 'Casillero desasignado exitosamente.'
   end
 
-  # Método para enviar la actualización de información al ESP32
   def sincronizar
-    # Define el topic MQTT para enviar la información
     topic = "sincronizar"
   
     # Construye el mensaje JSON con los datos del controlador
@@ -67,7 +65,6 @@ class ControladoresController < ApplicationController
       casilleros: @controlador.casilleros.map { |casillero| { id: casillero.id, clave: casillero.clave } }
     }
   
-    # Añade el contenido del archivo .txt del modelo en Base64 si está adjunto
     if @controlador.modelo&.txt_file&.attached?
       contenido_archivo = @controlador.modelo.txt_file.download
       contenido_base64 = Base64.encode64(contenido_archivo)
