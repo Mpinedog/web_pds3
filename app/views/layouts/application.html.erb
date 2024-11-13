@@ -25,18 +25,21 @@
           <li class="nav-item">
             <%= link_to 'Casilleros', casilleros_path, class: 'nav-link' %>
           </li>
-
           <li class="nav-item">
             <%= link_to 'Controladores', controladores_path, class: 'nav-link' %>
           </li>
-          <li class="nav-item">
-          </li>
+          
+          <% if usuario_signed_in? && current_usuario.super_user? %>
+            <li class="nav-item">
+              <%= link_to 'Usuarios', usuarios_path, class: 'nav-link' %>
+            </li>
+          <% end %>
         </ul>
 
         <ul class="navbar-nav">
           <% if usuario_signed_in? %>
             <li class="nav-item">
-              <%= link_to 'Perfil', edit_usuario_path, class: 'nav-link' %>
+              <%= link_to 'Perfil', edit_usuario_path(current_usuario), class: 'nav-link' %>
             </li>
             <li class="nav-item">
               <%= link_to 'Cerrar sesión', destroy_usuario_session_path, method: :delete, data: { turbo: false }, class: 'nav-link' %>

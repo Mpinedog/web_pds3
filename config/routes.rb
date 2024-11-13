@@ -7,7 +7,11 @@ Rails.application.routes.draw do
     omniauth_callbacks: "usuarios/omniauth_callbacks"
   }
 
-  resource :usuario, only: [:edit, :update]
+  resources :usuarios, only: [:index, :show, :edit, :update, :destroy] do
+    collection do
+      get :registro # Ruta para el formulario de nuevo usuario
+    end
+  end
 
   devise_scope :usuario do
     authenticated :usuario do
@@ -34,11 +38,12 @@ Rails.application.routes.draw do
       delete :desasignar_casillero # Ruta para desasignar un casillero existente
     end
   end
-
+  resources :superusuario
   resources :modelos 
   resources :metricas 
   resources :casilleros, only: [:index, :show] # Index y show de casilleros fuera de contexto de un controlador
   resources :superusuario
+
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

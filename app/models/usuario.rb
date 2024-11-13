@@ -13,6 +13,10 @@ class Usuario < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :username, :first_name, :last_name, presence: true
 
+  def super_user?
+    super_user
+  end
+
   def self.from_omniauth(auth)
     usuario = where(provider: auth.provider, uid: auth.uid).first_or_initialize
     usuario.email = auth.info.email if usuario.email.blank?
