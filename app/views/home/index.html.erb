@@ -23,19 +23,9 @@
         <tr>
           <th>ID</th>
           <th>Estado</th>
-          <th>Ubicación</th>
-          <th>Acción</th>
         </tr>
       </thead>
       <tbody>
-        <% @casilleros.each do |casillero| %>
-          <tr>
-            <td><%= casillero.id %></td>
-            <td>
-              <%= button_to 'Generar Contraseña', generar_contrasena_casillero_path(casillero), method: :patch, class: "btn btn-warning", data: { confirm: "¿Seguro que deseas generar una nueva contraseña para el casillero #{casillero.id}?" } %>
-            </td>
-          </tr>
-        <% end %>
       </tbody>
     </table>
   </section>
