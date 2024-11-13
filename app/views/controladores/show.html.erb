@@ -36,5 +36,8 @@
     <p class="text-muted">No hay casilleros disponibles para asignar.</p>
   <% end %>
   <%= link_to 'Sincronizar con ESP32', sincronizar_controlador_path(@controlador), method: :patch, class: 'btn btn-warning', data: { confirm: '¿Estás seguro de que deseas sincronizar este controlador con el ESP32?' } %>
+  <%= form_with url: controlador_path(@controlador), method: :delete, class: 'd-inline' do |form| %>
+    <%= form.submit 'Eliminar', class: 'btn btn-danger btn-sm', data: { confirm: '¿Estás seguro de que deseas eliminar este controlador?' } %>
+  <% end %>
   <%= link_to 'Volver a la Lista', controladores_path, class: 'btn btn-secondary mt-3' %>
 </div>
