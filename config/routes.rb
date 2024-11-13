@@ -38,7 +38,7 @@ Rails.application.routes.draw do
       delete :desasignar_casillero # Ruta para desasignar un casillero existente
     end
   end
-  #hola
+
   resources :superusuario
   resources :modelos 
   resources :metricas 
