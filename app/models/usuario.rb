@@ -4,7 +4,9 @@ class Usuario < ApplicationRecord
     :omniauthable, omniauth_providers: [:google_oauth2]
   
   belongs_to :modelo, optional: true
-  has_many :controladores
+  has_many :controladores, dependent: :destroy
+  after_save :assign_model_to_controladores, if: -> { saved_change_to_modelo_id? && modelo.present? }
+
   has_many :casilleros
 
   validates :password, length: { minimum: 6 }, if: -> { password.present? }
@@ -20,5 +22,9 @@ class Usuario < ApplicationRecord
     
     usuario.save(validate: false)
     usuario
+  end
+
+  def assign_model_to_controladores
+    controladores.update_all(modelo_id: modelo_id)
   end
 end

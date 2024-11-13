@@ -3,6 +3,11 @@
   <%= form_with(model: @modelo, local: true, html: { enctype: "multipart/form-data" }) do |f| %>
     
     <div class="mb-3">
+      <%= f.label :nombre, 'Nombre del Modelo', class: 'form-label' %>
+      <%= f.text_field :nombre, class: 'form-control', placeholder: 'Introduce el nombre del modelo' %>
+    </div>
+
+    <div class="mb-3">
       <%= f.label :tflite_file, 'Sube el archivo del modelo (.tflite)', class: 'form-label' %>
       <%= f.file_field :tflite_file, accept: ".tflite", class: 'form-control' %>
     </div>

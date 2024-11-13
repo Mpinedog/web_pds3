@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_09_214331) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_13_022332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_214331) do
     t.bigint "usuario_id", null: false
     t.bigint "controlador_id"
     t.bigint "metrica_id", null: false
+    t.string "nombre"
     t.index ["controlador_id"], name: "index_casilleros_on_controlador_id"
     t.index ["metrica_id"], name: "index_casilleros_on_metrica_id"
     t.index ["usuario_id"], name: "index_casilleros_on_usuario_id"
@@ -83,6 +84,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_214331) do
     t.string "sign6"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "nombre"
   end
 
   create_table "signs", force: :cascade do |t|

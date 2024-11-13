@@ -19,12 +19,11 @@
               <% @controladores.each do |controlador| %>
                 <li class="list-group-item">
                   <strong>Nombre:</strong> <%= controlador.nombre %><br>
-                  <strong>Casilleros Activos:</strong> <%= controlador.casilleros_activos ? 'Sí' : 'No' %><br>
                   <strong>Casilleros Asociados:</strong>
                   <% if controlador.casilleros.any? %>
                     <ul>
                       <% controlador.casilleros.each do |casillero| %>
-                        <li>ID: <%= casillero.id %></li>
+                        <li> <%= casillero.nombre %></li>
                       <% end %>
                     </ul>
                   <% else %>

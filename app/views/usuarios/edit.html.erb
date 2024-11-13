@@ -18,14 +18,12 @@
     <%= f.text_field :last_name, class: 'form-control' %>
   </div>
 
-  <div class="mb-3">
-    <%= f.label :modelo_id, 'Modelo Asociado (ID)', class: 'form-label' %>
-    <%= f.select :modelo_id, Modelo.all.collect { |m| [m.id, m.id] }, { include_blank: 'Seleccione un modelo' }, class: 'form-select' %>
+  <div class="form-group">
+    <%= f.label :modelo_id, "Selecciona un Modelo", class: "form-label" %>
+    <%= f.collection_select :modelo_id, Modelo.all, :id, :nombre, prompt: "Selecciona un modelo", class: "form-control" %>
   </div>
-
 
   <div class="d-grid gap-2">
     <%= f.submit 'Guardar Cambios', class: 'btn btn-primary' %>
   </div>
 <% end %>
-

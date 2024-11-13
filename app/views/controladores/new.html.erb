@@ -23,11 +23,6 @@
           </div>
 
           <div class="mb-3">
-            <%= f.label :usuario_id, 'Usuario', class: 'form-label' %>
-            <%= f.collection_select :usuario_id, Usuario.all, :id, :username, prompt: "Selecciona un usuario", class: 'form-select' %>
-          </div>
-
-          <div class="mb-3">
             <%= f.label :modelo_id, 'Modelo', class: 'form-label' %>
             <%= f.collection_select :modelo_id, Modelo.all, :id, :id, prompt: "Selecciona un modelo", class: 'form-select' %>
           </div>

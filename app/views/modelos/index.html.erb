@@ -4,7 +4,7 @@
   <table class="table">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Nombre</th>
         <th>Signo 1</th>
         <th>Signo 2</th>
         <th>Signo 3</th>
@@ -17,7 +17,7 @@
     <tbody>
       <% @modelos.each do |modelo| %>
         <tr>
-          <td><%= modelo.id %></td>
+          <td><%= modelo.nombre %></td>
           
           <!-- Mostrar nombres de signos, si existen -->
           <% modelo.signs.first(6).each do |sign| %>

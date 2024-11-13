@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'home/index'
+  
   devise_for :usuarios, controllers: {
     registrations: "usuarios/registrations",
     sessions: "usuarios/sessions",
@@ -21,14 +22,16 @@ Rails.application.routes.draw do
   # Declaración principal de casilleros antes de las rutas anidadas
   resources :casilleros, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     member do
-      patch :generar_contrasena  
+      patch :generar_contrasena
     end
   end
 
   resources :controladores do
-    resources :casilleros, only: [:new, :create]
+    resources :casilleros, only: [:new, :create, :destroy]
     member do
       patch :sincronizar # Ruta para la acción de sincronización
+      post :asignar_casillero # Ruta para asignar un casillero existente
+      delete :desasignar_casillero # Ruta para desasignar un casillero existente
     end
   end
 

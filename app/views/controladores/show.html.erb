@@ -1,14 +1,20 @@
 <div class="container mt-5">
   <h2>Detalles del Controlador</h2>
   <p><strong>Nombre:</strong> <%= @controlador.nombre %></p>
+  <p><strong>Modelo:</strong> <%= @controlador.modelo.nombre %></p>
   <p><strong>Casilleros Activos:</strong> <%= @controlador.casilleros_activos ? 'Sí' : 'No' %></p>
   <p><strong>Casilleros Asociados:</strong></p>
   
   <ul>
     <% if @controlador.casilleros.any? %>
       <% @controlador.casilleros.each do |casillero| %>
-        <li>
-          ID: <%= casillero.id %> 
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <%= casillero.nombre %> <!-- Muestra el nombre del casillero en lugar del ID -->
+
+          <!-- Formulario para desasignar casillero -->
+          <%= form_with url: desasignar_casillero_controlador_path(@controlador, casillero_id: casillero.id), method: :delete, local: true do %>
+            <%= submit_tag "Desasignar", data: { confirm: "¿Estás seguro de que deseas desasignar este casillero?" }, class: "btn btn-danger btn-sm" %>
+          <% end %>
         </li>
       <% end %>
     <% else %>
@@ -16,7 +22,19 @@
     <% end %>
   </ul>
 
-  <%= link_to 'Agregar Casillero', new_controlador_casillero_path(@controlador), class: 'btn btn-success' %>
-  <%= link_to 'Volver a la Lista', controladores_path, class: 'btn btn-secondary' %>
-  <%= link_to 'Eliminar', controlador_path(@controlador), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar este controlador?', turbo: false }, class: 'btn btn-danger' %>
+  <!-- Formulario para asignar un casillero disponible al controlador -->
+  <h3>Agregar Casillero</h3>
+  <% if @casilleros_disponibles.any? %>
+    <%= form_with url: asignar_casillero_controlador_path(@controlador), method: :post, local: true do |form| %>
+      <div class="form-group">
+        <%= form.label :casillero_id, "Selecciona un casillero disponible:" %>
+        <%= form.collection_select :casillero_id, @casilleros_disponibles, :id, :nombre, prompt: "Seleccionar Casillero", class: "form-control" %>
+      </div>
+      <%= form.submit "Asignar Casillero", class: "btn btn-primary mt-3" %>
+    <% end %>
+  <% else %>
+    <p class="text-muted">No hay casilleros disponibles para asignar.</p>
+  <% end %>
+
+  <%= link_to 'Volver a la Lista', controladores_path, class: 'btn btn-secondary mt-3' %>
 </div>

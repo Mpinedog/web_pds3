@@ -13,14 +13,20 @@
       </div>
     <% end %>
 
+    <!-- Campo para Nombre del Casillero -->
     <div class="mb-3">
-      <%= form.label :apertura, "Apertura", class: "form-label" %>
-      <%= form.select :apertura, [['Abierto', true], ['Cerrado', false]], {}, class: "form-select" %>
+      <%= form.label :nombre, "Nombre del Casillero", class: "form-label" %>
+      <%= form.text_field :nombre, class: "form-control", value: @casillero.nombre %>
     </div>
 
     <div class="mb-3">
       <%= form.label :clave, "Clave de Acceso", class: "form-label" %>
       <%= form.text_field :clave, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :dueño_email, "Correo del Usuario Asociado", class: "form-label" %>
+      <%= form.collection_select :dueño_email, Usuario.all, :email, :email, { prompt: "Seleccione un correo" }, class: "form-select" %>
     </div>
 
     <div class="mb-3">

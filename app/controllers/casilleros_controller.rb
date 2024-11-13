@@ -1,13 +1,13 @@
 class CasillerosController < ApplicationController
   before_action :authenticate_usuario!
   before_action :set_controlador, only: [:show, :new, :create, :edit, :update, :destroy], if: -> { params[:controlador_id].present? }
+  before_action :set_casillero, only: [:show, :edit, :update, :destroy]
 
   def index
     @casilleros = Casillero.all
   end
 
   def show
-    @casillero = Casillero.find(params[:id])
   end
 
   def new
@@ -31,15 +31,13 @@ class CasillerosController < ApplicationController
   end
   
   def edit
-    @casillero = Casillero.find(params[:id])
   end
 
   def update
-    @casillero = Casillero.find(params[:id])
-    assign_user_to_casillero
-
-    if @casillero.update(casillero_params)
-      enviar_correo_casillero(@casillero)
+    assign_user_to_casillero # Cambiado de assign_user_by_email a assign_user_to_casillero
+  
+    if @casillero.update(casillero_params.except(:dueño_email))
+      enviar_correo_casillero(@casillero) # Envía el correo al usuario asignado
       redirect_to casillero_path(@casillero), notice: 'Casillero actualizado exitosamente y notificación enviada al dueño.'
     else
       render :edit
@@ -47,27 +45,35 @@ class CasillerosController < ApplicationController
   end
 
   def destroy
-    @casillero = Casillero.find(params[:id])
     @casillero.destroy
     redirect_to casilleros_path, notice: 'Casillero eliminado exitosamente.'
   end
 
   private
 
+  def set_casillero
+    @casillero = Casillero.find(params[:id])
+  end
+
   def assign_user_to_casillero
     email = params[:casillero][:dueño_email]
-    @casillero.usuario = Usuario.find_by(email: email)
-    unless @casillero.usuario
-      @casillero.errors.add(:dueño_email, 'No se encontró un usuario con ese correo electrónico')
+    if email.present?
+      usuario = Usuario.find_by(email: email)
+      if usuario
+        @casillero.usuario = usuario
+      else
+        @casillero.errors.add(:dueño_email, 'No se encontró un usuario con ese correo electrónico')
+      end
     end
   end
 
   def enviar_correo_casillero(casillero)
-    CasilleroMailer.with(casillero: casillero).notificar_dueno.deliver_now
+    CasilleroMailer.notificar_dueno(casillero).deliver_now
   end
+  
 
   def casillero_params
-    params.require(:casillero).permit(:apertura, :clave, :usuario_id, :controlador_id, :dueño_email)
+    params.require(:casillero).permit(:nombre, :apertura, :clave, :controlador_id, :dueño_email)
   end  
 
   def set_controlador
