@@ -1,0 +1,27 @@
+<div class="container mt-5">
+  <h2>Crear Nuevo Predictor</h2>
+  <%= form_with(model: @predictor, local: true, html: { enctype: "multipart/form-data" }) do |f| %>
+    
+    <div class="mb-3">
+      <%= f.label :tflite_file, 'Sube el archivo del predictor (.tflite)', class: 'form-label' %>
+      <%= f.file_field :tflite_file, accept: ".tflite", class: 'form-control' %>
+    </div>
+
+    <h3>Signos e Imágenes</h3>
+    <% 6.times do |i| %>
+      <div class="mb-3">
+        <%= f.fields_for :signs, @predictor.signs.build do |sign_form| %>
+          <%= sign_form.label :sign_name, "Símbolo #{i + 1}", class: 'form-label' %>
+          <%= sign_form.text_field :sign_name, class: 'form-control', placeholder: "Nombre del Símbolo" %>
+
+          <%= sign_form.label :image, "Imagen del Símbolo #{i + 1}", class: 'form-label mt-2' %>
+          <%= sign_form.file_field :image, class: 'form-control' %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= f.submit 'Crear Predictor', class: 'btn btn-primary' %>
+  <% end %>
+
+  <%= link_to 'Volver a la Lista de Predictors', predictors_path, class: 'btn btn-secondary mt-3' %>
+</div>

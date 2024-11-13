@@ -2,8 +2,8 @@
 
 one:
   sign_name: MyString
-  modelo: one
+  predictor: one
 
 two:
   sign_name: MyString
-  modelo: two
+  predictor: two

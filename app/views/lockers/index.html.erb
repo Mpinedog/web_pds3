@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <h2>Lista de Lockers</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Manager</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lockers.each do |locker| %>
+        <tr>
+          <td><%= locker.id %></td>
+          <td><%= locker.user.try(:first_name) %></td>
+          <td><%= locker.manager.try(:name) %></td>
+          <td>
+            <%= link_to 'Ver', locker_path(locker), class: 'btn btn-primary btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Agregar Nuevo Locker', new_locker_path, class: 'btn btn-success' %>
+</div>

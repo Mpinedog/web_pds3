@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
   get 'home/index'
-  devise_for :usuarios, controllers: {
-    registrations: "usuarios/registrations",
-    sessions: "usuarios/sessions",
-    omniauth_callbacks: "usuarios/omniauth_callbacks"
+  devise_for :users, controllers: {
+    registrations: "users/registrations",
+    sessions: "users/sessions",
+    omniauth_callbacks: "users/omniauth_callbacks"
   }
 
-  resource :usuario, only: [:edit, :update]
+  resource :user, only: [:edit, :update]
 
-  devise_scope :usuario do
-    authenticated :usuario do
+  devise_scope :user do
+    authenticated :user do
       root 'home#index', as: :authenticated_root
     end
 
@@ -18,23 +18,23 @@ Rails.application.routes.draw do
     end
   end
 
-  # Declaración principal de casilleros antes de las rutas anidadas
-  resources :casilleros, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  # Declaración principal de lockers antes de las rutas anidadas
+  resources :lockers, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     member do
-      patch :generar_contrasena  
+      patch :generate_password  
     end
   end
 
-  resources :controladores do
-    resources :casilleros, only: [:new, :create]
+  resources :managers do
+    resources :lockers, only: [:new, :create]
     member do
-      patch :sincronizar # Ruta para la acción de sincronización
+      patch :synchronize # Ruta para la acción de sincronización
     end
   end
 
-  resources :modelos 
-  resources :metricas 
-  resources :casilleros, only: [:index, :show] # Index y show de casilleros fuera de contexto de un controlador
+  resources :predictors 
+  resources :metrics 
+  resources :lockers, only: [:index, :show] # Index y show de lockers fuera de contexto de un manager
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

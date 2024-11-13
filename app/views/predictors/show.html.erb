@@ -1,0 +1,30 @@
+<!-- app/views/predictors/show.html.erb -->
+<div class="container mt-5">
+  <h2>Detalles del Predictor <%= @predictor.id %></h2>
+  
+  <p><strong>Archivo .tflite:</strong> <%= @predictor.tflite_file.filename.to_s if @predictor.tflite_file.attached? %></p>
+
+  <h3>Signos</h3>
+  <div class="row">
+    <% @predictor.signs.each do |sign| %>
+      <div class="col-md-4 col-lg-2 mb-4">
+        <div class="card text-center">
+          <% if sign.image.attached? %>
+            <%= image_tag sign.image, class: 'card-img-top img-fluid', size: '150x150' %>
+          <% else %>
+            <p>No hay imagen disponible.</p>
+          <% end %>
+          
+          <div class="card-body">
+            <h5 class="card-title"><%= sign.sign_name %></h5>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% if current_user&.super_user? %>
+    <%= link_to 'Editar', edit_predictor_path(@predictor), class: 'btn btn-warning btn-sm' %>
+    <%= link_to 'Eliminar', predictor_path(@predictor), method: :delete, data: { turbo: false }, class: 'btn btn-danger' %>
+  <% end %>
+  <%= link_to 'Volver a la Lista de Predictors', predictors_path, class: 'btn btn-secondary mt-3' %>
+</div>

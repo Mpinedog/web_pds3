@@ -42,39 +42,39 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_214331) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "casilleros", force: :cascade do |t|
-    t.boolean "apertura"
-    t.string "clave"
+  create_table "lockers", force: :cascade do |t|
+    t.boolean "opening"
+    t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "usuario_id", null: false
-    t.bigint "controlador_id"
-    t.bigint "metrica_id", null: false
-    t.index ["controlador_id"], name: "index_casilleros_on_controlador_id"
-    t.index ["metrica_id"], name: "index_casilleros_on_metrica_id"
-    t.index ["usuario_id"], name: "index_casilleros_on_usuario_id"
+    t.bigint "user_id", null: false
+    t.bigint "manager_id"
+    t.bigint "metric_id", null: false
+    t.index ["manager_id"], name: "index_lockers_on_manager_id"
+    t.index ["metric_id"], name: "index_lockers_on_metric_id"
+    t.index ["user_id"], name: "index_lockers_on_user_id"
   end
 
-  create_table "controladores", force: :cascade do |t|
-    t.string "nombre"
-    t.boolean "casilleros_activos"
+  create_table "managers", force: :cascade do |t|
+    t.string "name"
+    t.boolean "active_lockers"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "modelo_id"
-    t.bigint "usuario_id", null: false
-    t.index ["modelo_id"], name: "index_controladores_on_modelo_id"
-    t.index ["usuario_id"], name: "index_controladores_on_usuario_id"
+    t.bigint "predictor_id"
+    t.bigint "user_id", null: false
+    t.index ["predictor_id"], name: "index_managers_on_predictor_id"
+    t.index ["user_id"], name: "index_managers_on_user_id"
   end
 
-  create_table "metricas", force: :cascade do |t|
-    t.integer "cant_aperturas"
-    t.integer "cant_intentos_fallidos"
-    t.integer "cant_cambios_contrasena"
+  create_table "metrics", force: :cascade do |t|
+    t.integer "openings"
+    t.integer "failed_attemps"
+    t.integer "password_changes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "modelos", force: :cascade do |t|
+  create_table "predictors", force: :cascade do |t|
     t.string "sign1"
     t.string "sign2"
     t.string "sign3"
@@ -87,13 +87,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_214331) do
 
   create_table "signs", force: :cascade do |t|
     t.string "sign_name"
-    t.bigint "modelo_id", null: false
+    t.bigint "predictor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["modelo_id"], name: "index_signs_on_modelo_id"
+    t.index ["predictor_id"], name: "index_signs_on_predictor_id"
   end
 
-  create_table "usuarios", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "mail"
     t.string "username"
     t.string "first_name"
@@ -104,7 +104,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_214331) do
     t.string "avatar_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "modelo_id"
+    t.bigint "predictor_id"
     t.string "password_digest"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -116,18 +116,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_09_214331) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.index ["email"], name: "index_usuarios_on_email", unique: true
-    t.index ["modelo_id"], name: "index_usuarios_on_modelo_id"
-    t.index ["reset_password_token"], name: "index_usuarios_on_reset_password_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["predictor_id"], name: "index_users_on_predictor_id"
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "casilleros", "controladores"
-  add_foreign_key "casilleros", "metricas"
-  add_foreign_key "casilleros", "usuarios"
-  add_foreign_key "controladores", "modelos"
-  add_foreign_key "controladores", "usuarios"
-  add_foreign_key "signs", "modelos"
-  add_foreign_key "usuarios", "modelos"
+  add_foreign_key "lockers", "managers"
+  add_foreign_key "lockers", "metrics"
+  add_foreign_key "lockers", "users"
+  add_foreign_key "managers", "predictors"
+  add_foreign_key "managers", "users"
+  add_foreign_key "signs", "predictors"
+  add_foreign_key "users", "predictors"
 end

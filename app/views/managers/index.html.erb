@@ -1,0 +1,44 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <h5 class="card-title">Crear Nuevo Manager</h5>
+          <p class="card-text">Añade un nuevo manager a la lista.</p>
+          <%= link_to 'Crear Manager', new_manager_path, class: 'btn btn-success mt-3' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Lista de Managers</h5>
+          <% if @managers.any? %>
+            <ul class="list-group mt-3">
+              <% @managers.each do |manager| %>
+                <li class="list-group-item">
+                  <strong>Nombre:</strong> <%= manager.name %><br>
+                  <strong>Lockers Activos:</strong> <%= manager.active_lockers ? 'Sí' : 'No' %><br>
+                  <strong>Lockers Asociados:</strong>
+                  <% if manager.lockers.any? %>
+                    <ul>
+                      <% manager.lockers.each do |locker| %>
+                        <li>ID: <%= locker.id %></li>
+                      <% end %>
+                    </ul>
+                  <% else %>
+                    <span class="text-muted">Sin lockers asociados</span>
+                  <% end %>
+                  <%= link_to 'Ver', manager_path(manager), class: 'btn btn-primary btn-sm mt-2' %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-muted mt-3">No hay managers disponibles.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

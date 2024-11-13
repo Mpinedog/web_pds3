@@ -1,0 +1,22 @@
+<div class="container mt-5">
+  <h2>Detalles del Manager</h2>
+  <p><strong>Nombre:</strong> <%= @manager.name %></p>
+  <p><strong>Lockers Activos:</strong> <%= @manager.active_lockers ? 'Sí' : 'No' %></p>
+  <p><strong>Lockers Asociados:</strong></p>
+  
+  <ul>
+    <% if @manager.lockers.any? %>
+      <% @manager.lockers.each do |locker| %>
+        <li>
+          ID: <%= locker.id %> 
+        </li>
+      <% end %>
+    <% else %>
+      <li>No hay lockers asociados</li>
+    <% end %>
+  </ul>
+
+  <%= link_to 'Agregar Locker', new_manager_locker_path(@manager), class: 'btn btn-success' %>
+  <%= link_to 'Volver a la Lista', managers_path, class: 'btn btn-secondary' %>
+  <%= link_to 'Eliminar', manager_path(@manager), method: :delete, data: { confirm: '¿Estás seguro de que deseas eliminar este manager?', turbo: false }, class: 'btn btn-danger' %>
+</div>

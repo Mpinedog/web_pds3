@@ -1,0 +1,11 @@
+<div class="container mt-5">
+  <h2>Detalles del Locker <%= @locker.id %></h2>
+  <p><strong>Manager:</strong> <%= @locker.manager.try(:name) %></p>
+  <p><strong>User:</strong> <%= @locker.user.try(:first_name) %></p>
+
+  <p><strong>Clave:</strong> <%= @locker.password %></p>
+
+  <%= link_to 'Editar', edit_locker_path(@locker), class: 'btn btn-warning' %>
+  <%= link_to 'Eliminar', locker_path(@locker), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-danger' %>
+  <%= link_to 'Volver a la Lista de Lockers', lockers_path, class: 'btn btn-secondary' %>
+</div>

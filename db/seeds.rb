@@ -2,18 +2,18 @@
 require 'faker'
 
 # Clear tables in order to prevent foreign key constraint errors
-Casillero.destroy_all
-Controlador.destroy_all
-Metrica.destroy_all
-Usuario.destroy_all
-Modelo.destroy_all
+Locker.destroy_all
+Manager.destroy_all
+Metric.destroy_all
+User.destroy_all
+Predictor.destroy_all
 
 
 # Create a Default Model for the Superuser
 
 
 # Create an Admin Superuser
-Usuario.create!(
+User.create!(
   email: 'admin@example.com',             # Admin email
   username: 'admin',
   first_name: 'Admin',

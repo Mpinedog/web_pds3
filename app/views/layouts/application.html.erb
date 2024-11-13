@@ -12,7 +12,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="<%= usuario_signed_in? ? authenticated_root_path : unauthenticated_root_path %>">Sistema de Administración</a>
+      <a class="navbar-brand" href="<%= user_signed_in? ? authenticated_root_path : unauthenticated_root_path %>">Sistema de Administración</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,33 +20,33 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <%= link_to 'Modelos', modelos_path, class: 'nav-link' %>
+            <%= link_to 'Predictors', predictors_path, class: 'nav-link' %>
           </li>
           <li class="nav-item">
-            <%= link_to 'Casilleros', casilleros_path, class: 'nav-link' %>
+            <%= link_to 'Lockers', lockers_path, class: 'nav-link' %>
           </li>
 
           <li class="nav-item">
-            <%= link_to 'Controladores', controladores_path, class: 'nav-link' %>
+            <%= link_to 'Managers', managers_path, class: 'nav-link' %>
           </li>
           <li class="nav-item">
           </li>
         </ul>
 
         <ul class="navbar-nav">
-          <% if usuario_signed_in? %>
+          <% if user_signed_in? %>
             <li class="nav-item">
-              <%= link_to 'Perfil', edit_usuario_path, class: 'nav-link' %>
+              <%= link_to 'Perfil', edit_user_path, class: 'nav-link' %>
             </li>
             <li class="nav-item">
-              <%= link_to 'Cerrar sesión', destroy_usuario_session_path, method: :delete, data: { turbo: false }, class: 'nav-link' %>
+              <%= link_to 'Cerrar sesión', destroy_user_session_path, method: :delete, data: { turbo: false }, class: 'nav-link' %>
             </li>
           <% else %>
             <li class="nav-item">
-              <%= link_to 'Iniciar sesión', new_usuario_session_path, class: 'nav-link' %>
+              <%= link_to 'Iniciar sesión', new_user_session_path, class: 'nav-link' %>
             </li>
             <li class="nav-item">
-              <%= link_to 'Registrarse', new_usuario_registration_path, class: 'nav-link' %>
+              <%= link_to 'Registrarse', new_user_registration_path, class: 'nav-link' %>
             </li>
           <% end %>
         </ul>

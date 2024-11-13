@@ -1,11 +1,11 @@
 class HomeController < ApplicationController
-  before_action :authenticate_usuario!
+  before_action :authenticate_user!
 
   def index
-    @casilleros = Casillero.all  
-    @controladores = Controlador.all 
-    @modelos = Modelo.all 
-    @usuario = current_usuario 
+    @lockers = Locker.all  
+    @managers = Manager.all 
+    @predictors = Predictor.all 
+    @user = current_user 
   end
   
 end

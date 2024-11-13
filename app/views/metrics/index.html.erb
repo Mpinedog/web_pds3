@@ -1,0 +1,47 @@
+<h1 class="text-center mb-4">Métricas de Lockers</h1>
+
+<div class="container">
+  <!-- Resumen de estadísticas generales -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Porcentaje de Éxito de Aperturas</h5>
+          <p class="card-text display-6"><%= number_to_percentage(@porcentaje_exito_openings, precision: 2) %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Lockers Abiertos</h5>
+          <p class="card-text display-6"><%= @lockers_abiertos %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de métricas por locker -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Locker</th>
+          <th scope="col">Aperturas</th>
+          <th scope="col">Intentos Fallidos</th>
+          <th scope="col">Cambios de Contraseña</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lockers.each do |locker| %>
+          <tr>
+            <td><%= locker.name %></td>
+            <td><%= @openings_por_locker[locker.id] || 0 %></td>
+            <td><%= @intentos_fallidos_por_locker[locker.id] || 0 %></td>
+            <td><%= @cambios_contrasena_por_locker[locker.id] || 0 %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

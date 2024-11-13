@@ -15,5 +15,5 @@
 #   inflect.acronym "RESTful"
 # end
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.irregular 'controlador', 'controladores'
+  inflect.irregular 'manager', 'managers'
 end

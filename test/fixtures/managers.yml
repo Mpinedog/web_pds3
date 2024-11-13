@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  owner: one
+  active_lockers: false
+  predictor: one
+
+two:
+  name: MyString
+  owner: two
+  active_lockers: false
+  predictor: two

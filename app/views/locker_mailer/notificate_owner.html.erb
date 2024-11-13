@@ -1,0 +1,28 @@
+<h1>Hola <%= @user.first_name %>,</h1>
+
+<p>Se te ha asignado un nuevo locker administrado por nuestro sistema de control de acceso.</p>
+
+<p><strong>Clave de acceso:</strong> <%= @password %> (Utiliza los símbolos correspondientes en la app para visualizarlos).</p>
+
+<h3>Instrucciones de opening</h3>
+<p>
+  <ol>
+    <li>Aproximarse al locker. Al acercarte, el sensor activará el sistema de control.</li>
+    <li>Selecciona el locker presionando el botón correspondiente a tu número asignado.</li>
+    <li>Ingresa la password realizando los gestos en el orden indicado. Cada gesto debe ser claro y visible hasta su confirmación.</li>
+    <li>Al finalizar, una luz verde se encenderá, indicando que el locker está desbloqueado. Puedes abrirlo y acceder a su contenido.</li>
+  </ol>
+</p>
+
+<h3>Instrucciones de cierre</h3>
+<p>
+  <ol>
+    <li>Cierra la puerta del locker hasta que esté firmemente sellada.</li>
+    <li>El sistema bloqueará automáticamente el locker, y una luz roja confirmará el cierre seguro.</li>
+  </ol>
+</p>
+
+<p>Recuerda mantener esta password en un lugar seguro. Para cualquier inconveniente con el acceso, no dudes en contactarnos.</p>
+
+<p>Saludos cordiales,</p>
+<p>Equipo de Administración de Lockers</p>

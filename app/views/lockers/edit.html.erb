@@ -1,0 +1,32 @@
+<div class="container mt-5">
+  <h1 class="mb-4">Editar Locker</h1>
+
+  <%= form_with(model: @locker, url: locker_path(@locker), local: true) do |form| %>
+    <% if @locker.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading"><%= pluralize(@locker.errors.count, "error") %> prohibieron que este locker se guardara:</h4>
+        <ul>
+          <% @locker.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label :opening, "Apertura", class: "form-label" %>
+      <%= form.select :opening, [['Abierto', true], ['Cerrado', false]], {}, class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :password, "Clave de Acceso", class: "form-label" %>
+      <%= form.text_field :password, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.submit "Actualizar Locker", class: "btn btn-primary w-100" %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Cancelar', locker_path(@locker), class: "btn btn-secondary w-100 mt-2" %>
+</div>

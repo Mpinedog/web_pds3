@@ -1,23 +1,23 @@
-<h1 class="text-center mt-4">Bienvenido, <%= @usuario.first_name %></h1>
+<h1 class="text-center mt-4">Bienvenido, <%= @user.first_name %></h1>
 
 <div class="container mt-5">
-  <!-- Perfil del usuario en una tarjeta -->
+  <!-- Perfil del user en una tarjeta -->
   <section class="mb-4">
     <div class="card">
       <div class="card-header">
-        <h2>Perfil del Usuario</h2>
+        <h2>Perfil del User</h2>
       </div>
       <div class="card-body">
-        <p><strong>Nombre:</strong> <%= @usuario.first_name %></p>
-        <p><strong>Email:</strong> <%= @usuario.email %></p>
-        <p><strong>Fecha de Creación:</strong> <%= @usuario.created_at.strftime("%d/%m/%Y") %></p>
+        <p><strong>Nombre:</strong> <%= @user.first_name %></p>
+        <p><strong>Email:</strong> <%= @user.email %></p>
+        <p><strong>Fecha de Creación:</strong> <%= @user.created_at.strftime("%d/%m/%Y") %></p>
       </div>
     </div>
   </section>
 
-  <!-- Estado de los casilleros -->
+  <!-- Estado de los lockers -->
   <section class="mb-4">
-    <h2>Estado de los Casilleros</h2>
+    <h2>Estado de los Lockers</h2>
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -28,11 +28,11 @@
         </tr>
       </thead>
       <tbody>
-        <% @casilleros.each do |casillero| %>
+        <% @lockers.each do |locker| %>
           <tr>
-            <td><%= casillero.id %></td>
+            <td><%= locker.id %></td>
             <td>
-              <%= button_to 'Generar Contraseña', generar_contrasena_casillero_path(casillero), method: :patch, class: "btn btn-warning", data: { confirm: "¿Seguro que deseas generar una nueva contraseña para el casillero #{casillero.id}?" } %>
+              <%= button_to 'Generate Password', generate_password_locker_path(locker), method: :patch, class: "btn btn-warning", data: { confirm: "¿Seguro que deseas generar una nueva contraseña para el locker #{locker.id}?" } %>
             </td>
           </tr>
         <% end %>
@@ -40,25 +40,25 @@
     </table>
   </section>
 
-  <!-- Lista de Controladores -->
+  <!-- Lista de Managers -->
   <section class="mb-4">
-    <h2>Lista de Controladores</h2>
+    <h2>Lista de Managers</h2>
     <ul class="list-group">
-      <% @controladores.each do |controlador| %>
+      <% @managers.each do |manager| %>
         <li class="list-group-item">
-          <%= link_to controlador.nombre, controlador_path(controlador), class: "text-decoration-none" %> 
+          <%= link_to manager.name, manager_path(manager), class: "text-decoration-none" %> 
         </li>
       <% end %>
     </ul>
   </section>
 
-  <!-- Lista de Modelos -->
+  <!-- Lista de Predictors -->
   <section class="mb-4">
-    <h2>Lista de Modelos</h2>
+    <h2>Lista de Predictors</h2>
     <ul class="list-group">
-      <% @modelos.each do |modelo| %>
+      <% @predictors.each do |predictor| %>
         <li class="list-group-item">
-          <%= link_to modelo.id, modelo_path(modelo), class: "text-decoration-none" %> 
+          <%= link_to predictor.id, predictor_path(predictor), class: "text-decoration-none" %> 
         </li>
       <% end %>
     </ul>
