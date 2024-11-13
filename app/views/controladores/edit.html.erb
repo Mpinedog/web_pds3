@@ -22,11 +22,6 @@
             <%= f.text_field :nombre, class: 'form-control' %>
           </div>
 
-          <div class="mb-3">
-            <%= f.label :modelo_id, 'Modelo', class: 'form-label' %>
-            <%= f.collection_select :modelo_id, Modelo.all, :id, :id, prompt: "Selecciona un modelo", class: 'form-select' %>
-          </div>
-
           <div class="d-grid gap-2">
             <%= f.submit 'Actualizar Controlador', class: 'btn btn-primary btn-lg' %>
           </div>

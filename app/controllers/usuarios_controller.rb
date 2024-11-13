@@ -58,12 +58,12 @@ class UsuariosController < ApplicationController
   end
 
   def authorize_super_user
-    redirect_to(root_path, alert: 'No tienes permiso para acceder a esta página.') unless current_usuario.super_user?
+    redirect_to(authenticated_root_path, alert: 'No tienes permiso para acceder a esta página.') unless current_usuario.super_user?
   end
 
   def authorize_user_or_super_user!
     unless current_usuario == @usuario || current_usuario.super_user?
-      redirect_to(root_path, alert: 'No tienes permiso para editar este perfil.')
+      redirect_to(authenticated_root_path, alert: 'No tienes permiso para editar este perfil.')
     end
   end
 
