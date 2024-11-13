@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   resources :modelos 
   resources :metricas 
   resources :casilleros, only: [:index, :show] # Index y show de casilleros fuera de contexto de un controlador
+  resources :superusuario
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
