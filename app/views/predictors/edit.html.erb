@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <h2>Editar Predictor</h2>
+  <%= form_with(model: @predictor, local: true) do |f| %>
+    <h3>Editar Signos</h3>
+    
+    <div class="row">
+      <% @predictor.signs.each_with_index do |sign, index| %>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Signo <%= index + 1 %></h5>
+              <%= f.fields_for :signs, sign do |sign_form| %>
+                <div class="mb-3">
+                  <%= sign_form.label :sign_name, "Nombre del Signo", class: 'form-label' %>
+                  <%= sign_form.text_field :sign_name, class: 'form-control' %>
+                </div>
+
+                <div class="mb-3">
+                  <%= sign_form.label :image, "Imagen Actual", class: 'form-label' %>
+                  <% if sign.image.attached? %>
+                    <%= image_tag sign.image, class: 'img-thumbnail mb-2', size: '150x150' %>
+                  <% else %>
+                    <p>No hay imagen disponible.</p>
+                  <% end %>
+                  
+                  <%= sign_form.label :image, "Subir Nueva Imagen", class: 'form-label mt-2' %>
+                  <%= sign_form.file_field :image, class: 'form-control' %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= f.submit 'Guardar Cambios', class: 'btn btn-primary' %>
+    <%= link_to 'Cancelar', predictor_path(@predictor), class: 'btn btn-secondary ml-2' %>
+  <% end %>
+</div>

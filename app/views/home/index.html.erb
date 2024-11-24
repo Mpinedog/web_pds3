@@ -1,57 +1,73 @@
-<h1 class="text-center mt-4">Bienvenido, <%= @usuario.first_name %></h1>
+<div class="container my-5">
+  <section class="mb-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">User Information</h2>
+      </div>
+      
+    </div>
+  </section>
 
-<div class="container mt-5">
-  <!-- Perfil del usuario en una tarjeta -->
-  <section class="mb-4">
-    <div class="card">
-      <div class="card-header">
-        <h2>Perfil del Usuario</h2>
+  <section class="mb-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        <h3 class="mb-0">Lockers</h3>
       </div>
       <div class="card-body">
-        <p><strong>Nombre:</strong> <%= @usuario.first_name %></p>
-        <p><strong>Email:</strong> <%= @usuario.email %></p>
-        <p><strong>Fecha de Creación:</strong> <%= @usuario.created_at.strftime("%d/%m/%Y") %></p>
+        <% if @lockers.any? %>
+          <ul class="list-group">
+            <% @lockers.each do |locker| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= link_to locker.name, locker_path(locker), class: "text-decoration-none" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No lockers available.</p>
+        <% end %>
       </div>
     </div>
   </section>
 
-  <!-- Estado de los casilleros -->
-  <section class="mb-4">
-    <h2>Estado de los Casilleros</h2>
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th>ID</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+  <section class="mb-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-info text-white">
+        <h3 class="mb-0">Controllers</h3>
+      </div>
+      <div class="card-body">
+        <% if @managers.any? %>
+          <ul class="list-group">
+            <% @managers.each do |manager| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= link_to manager.name, manager_path(manager), class: "text-decoration-none" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No controllers available.</p>
+        <% end %>
+      </div>
+    </div>
   </section>
 
-  <!-- Lista de Controladores -->
-  <section class="mb-4">
-    <h2>Lista de Controladores</h2>
-    <ul class="list-group">
-      <% @controladores.each do |controlador| %>
-        <li class="list-group-item">
-          <%= link_to controlador.nombre, controlador_path(controlador), class: "text-decoration-none" %> 
-        </li>
-      <% end %>
-    </ul>
+  <section class="mb-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-warning text-dark">
+        <h3 class="mb-0">Models</h3>
+      </div>
+      <div class="card-body">
+        <% if @predictors.any? %>
+          <ul class="list-group">
+            <% @predictors.each do |predictor| %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= link_to " #{predictor.name}", predictor_path(predictor), class: "text-decoration-none" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-muted">No models available.</p>
+        <% end %>
+      </div>
+    </div>
   </section>
-
-  <!-- Lista de Modelos -->
-  <section class="mb-4">
-    <h2>Lista de Modelos</h2>
-    <ul class="list-group">
-      <% @modelos.each do |modelo| %>
-        <li class="list-group-item">
-          <%= link_to modelo.id, modelo_path(modelo), class: "text-decoration-none" %> 
-        </li>
-      <% end %>
-    </ul>
-  </section>
-
 </div>

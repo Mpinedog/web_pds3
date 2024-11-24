@@ -1,0 +1,72 @@
+<h1 class="text-center mb-4">Superuser Dashboard</h1>
+
+<div class="container">
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Number of Users</h5>
+          <p class="card-text display-6"><%= @user_count %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Success Rate of Openings</h5>
+          <p class="card-text display-6"><%= number_to_percentage(@success_rate_openings, precision: 2) %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Open Lockers</h5>
+          <p class="card-text display-6"><%= @open_lockers %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Total Password Changes</h5>
+          <p class="card-text display-6"><%= @total_password_changes %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Number of Controllers</h5>
+          <p class="card-text display-6"><%= @manager_count %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Locker</th>
+          <th scope="col">Openings</th>
+          <th scope="col">Failed Attempts</th>
+          <th scope="col">Password Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lockers.each do |locker| %>
+          <tr>
+            <td><%= locker.name %></td>
+            <td><%= @openings_per_locker[locker.id] || 0 %></td>
+            <td><%= @failed_attempts_per_locker[locker.id] || 0 %></td>
+            <td><%= @password_changes_per_locker[locker.id] || 0 %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

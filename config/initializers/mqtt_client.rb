@@ -1,49 +1,58 @@
-# mqtt_client.rb
 require 'mqtt'
 
+# Configuración del cliente MQTT
 MQTT_CLIENT ||= MQTT::Client.connect(
-  host: '054cf48ea1764139b07e5ab1da148df0.s1.eu.hivemq.cloud',
+  host: 'fe95203494624406b7c8e2cb69f69af7.s1.eu.hivemq.cloud',
   port: 8883,
   username: 'pds_web',
   password: '#Pds123123',
   ssl: true
 )
 
-# Suscribirse al tópico y recibir mensajes en un hilo separado
+# Manejar la suscripción en un hilo
 Thread.new do
-  MQTT_CLIENT.subscribe('casilleros/status')
+  loop do
+    begin
+      MQTT_CLIENT.subscribe('sincronizar')
 
-  MQTT_CLIENT.get do |topic, message|
-    process_message(topic, message)
+      MQTT_CLIENT.get do |topic, message|
+        process_message(topic, message)
+      end
+    rescue MQTT::ProtocolException => e
+      Rails.logger.error("Error de protocolo MQTT: #{e.message}")
+      sleep(5) # Esperar antes de intentar reconectar
+      retry
+    rescue => e
+      Rails.logger.error("Error inesperado en el cliente MQTT: #{e.message}")
+      break
+    end
   end
 end
 
-# Método para procesar mensajes recibidos
+# Método para procesar mensajes
 def process_message(topic, message)
-  puts "Mensaje recibido en el tópico #{topic}: #{message}"
+  Rails.logger.info("Mensaje recibido en el tópico  #{topic}: #{message}")
 
   # Parsear el mensaje JSON
   data = JSON.parse(message) rescue {}
 
-  # Asegurarse de que el mensaje tenga el formato esperado
-  if data['casilleros'].is_a?(Array)
-    data['casilleros'].each do |casillero_data|
-      casillero_id = casillero_data['id']
-      apertura = casillero_data['apertura']
+  # Validar el formato del mensaje
+  if data['lockers'].is_a?(Array)
+    data['lockers'].each do |locker_data|
+      locker_id = locker_data['id']
+      opening = locker_data['opening']
 
-      # Buscar el casillero por ID y actualizar su estado de apertura
-      casillero = Casillero.find_by(id: casillero_id)
-      if casillero
-        # Incrementar la métrica de aperturas si el casillero se abrió
-        if apertura
-          casillero.metrica.increment!(:cant_aperturas)
-          Rails.logger.info("Casillero #{casillero_id} apertura incrementada. Total aperturas: #{casillero.metrica.cant_aperturas}")
-          CasilleroMailer.notificar_apertura(casillero).deliver_now
-
-          casillero.update(apertura: false)
+      # Buscar el casillero y actualizar
+      locker = Locker.find_by(id: locker_id)
+      if locker
+        if opening
+          locker.metric.increment!(:openings_count)
+          Rails.logger.info("Casillero #{locker_id} apertura incrementada.")
+          LockerMailer.notificar_apertura(locker).deliver_now
+          locker.update(opening: false)
         end
       else
-        Rails.logger.warn("Casillero con ID #{casillero_id} no encontrado")
+        Rails.logger.warn("Casillero con ID #{locker_id} no encontrado")
       end
     end
   else

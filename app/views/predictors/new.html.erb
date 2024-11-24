@@ -1,0 +1,32 @@
+<div class="container mt-5">
+  <h2>Crear Nuevo modelo</h2>
+  <%= form_with(model: @predictor, local: true, html: { enctype: "multipart/form-data" }) do |f| %>
+    
+    <div class="mb-3">
+      <%= f.label :name, 'Nombre del Predictor', class: 'form-label' %>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Introduce el nombre del modelo' %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :txt_file, 'Sube el archivo del modelo (.txt)', class: 'form-label' %>
+      <%= f.file_field :txt_file, accept: ".txt", class: 'form-control' %>
+    </div>
+
+    <h3>Signos e Imágenes</h3>
+    <% 6.times do |i| %>
+      <div class="mb-3">
+        <%= f.fields_for :signs, @predictor.signs.build do |sign_form| %>
+          <%= sign_form.label :sign_name, "Símbolo #{i + 1}", class: 'form-label' %>
+          <%= sign_form.text_field :sign_name, class: 'form-control', placeholder: "Nombre del Símbolo" %>
+
+          <%= sign_form.label :image, "Imagen del Símbolo #{i + 1}", class: 'form-label mt-2' %>
+          <%= sign_form.file_field :image, class: 'form-control' %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= f.submit 'Crear modelo', class: 'btn btn-primary' %>
+  <% end %>
+
+  <%= link_to 'Volver a la Lista de modelos', predictors_path, class: 'btn btn-secondary mt-3' %>
+</div>

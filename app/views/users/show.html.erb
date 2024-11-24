@@ -1,0 +1,63 @@
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h1 class="display-4">User Details</h1>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">Personal Information</h2>
+    </div>
+    <div class="card-body">
+      <p><strong>First Name:</strong> <%= @user.first_name %></p>
+      <p><strong>Last Name:</strong> <%= @user.last_name %></p>
+      <p><strong>Username:</strong> <%= @user.username %></p>
+      <p><strong>Email:</strong> <%= @user.email %></p>
+    </div>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <h2 class="mb-0">Lockers</h2>
+    </div>
+    <div class="card-body">
+      <% if @lockers.any? %>
+        <ul class="list-group">
+          <% @lockers.each do |locker| %>
+            <li class="list-group-item">
+              <strong>Name:</strong> <%= locker.name %><br>
+              <strong>Password:</strong> <%= locker.password %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted">No associated lockers.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-info text-white">
+      <h2 class="mb-0">Managers</h2>
+    </div>
+    <div class="card-body">
+      <% if @managers.any? %>
+        <ul class="list-group">
+          <% @managers.each do |manager| %>
+            <li class="list-group-item">
+              <strong>Name:</strong> <%= manager.name %><br>
+              <strong>Active Lockers:</strong> <%= manager.active ? 'Yes' : 'No' %>
+              <br>
+              <%= link_to 'View Manager', manager_path(manager), class: 'btn btn-primary btn-sm mt-2' %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted">No associated managers.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <%= link_to 'Back to User List', users_path, class: 'btn btn-secondary btn-lg mt-3' %>
+  </div>
+</div>

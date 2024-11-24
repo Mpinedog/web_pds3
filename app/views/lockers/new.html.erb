@@ -1,0 +1,31 @@
+<%= form_with(model: @locker, local: true) do |form| %>
+  <% if @locker.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(@locker.errors.count, "error") %> impidieron que este casillero se guardara:</h4>
+      <ul>
+        <% @locker.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :name, "Nombre del Casillero", class: "form-label" %>
+    <%= form.text_field :name, class: 'form-control', placeholder: "Ingrese un nombre para el casillero" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :password, "Clave de Acceso", class: "form-label" %>
+    <%= form.text_field :password, class: "form-control", pattern: "[0-9]{4}", maxlength: 4, placeholder: "Ingrese 4 números", title: "Debe contener exactamente 4 números" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :user_id, "Correo Electrónico del Dueño", class: "form-label" %>
+    <%= form.collection_select :user_id, User.all, :id, :email, { prompt: "Seleccione un correo" }, class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.submit "Guardar Casillero", class: "btn btn-primary" %>
+  </div>
+<% end %>

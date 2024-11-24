@@ -1,0 +1,58 @@
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header text-center bg-primary text-white">
+      <h2>Controller Details</h2>
+    </div>
+    <div class="card-body">
+      <p><strong>Name:</strong> <%= @manager.name.presence || "No name available" %></p>
+      
+      <% if @manager.predictor.present? %>
+        <p><strong>Model:</strong> <%= @manager.predictor.name %></p>
+      <% else %>
+        <p><strong>Model:</strong> No model assigned</p>
+      <% end %>
+
+      <p><strong>Active Lockers:</strong> <%= @manager.active ? 'Yes' : 'No' %></p>
+
+      <h4>Associated Lockers</h4>
+      <% if @manager.lockers.any? %>
+        <ul class="list-group mb-3">
+          <% @manager.lockers.each do |locker| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= locker.name %>
+              <%= form_with url: unassign_locker_manager_path(@manager, locker_id: locker.id), method: :delete, local: true do %>
+                <%= submit_tag "Unassign", data: { confirm: "Are you sure you want to unassign this locker?" }, class: "btn btn-danger btn-sm" %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="text-muted">No lockers associated</p>
+      <% end %>
+
+      <h4>Add Locker</h4>
+      <% if @available_lockers.any? %>
+        <%= form_with url: assign_locker_manager_path(@manager), method: :post, local: true do |form| %>
+          <div class="form-group">
+            <%= form.label :locker_id, "Select an available locker:", class: "form-label" %>
+            <%= form.collection_select :locker_id, @available_lockers, :id, :name, prompt: "Select Locker", class: "form-select" %>
+          </div>
+          <%= form.submit "Assign Locker", class: "btn btn-success mt-3" %>
+        <% end %>
+      <% else %>
+        <p class="text-muted">No available lockers to assign.</p>
+      <% end %>
+
+      <div class="mt-4">
+        <%= link_to 'Synchronize with ESP32', synchronize_manager_path(@manager), method: :patch, class: 'btn btn-warning me-2', data: { confirm: 'Are you sure you want to synchronize this controller with the ESP32?' } %>
+
+        <%= form_with url: manager_path(@manager), method: :delete, class: 'd-inline' do |form| %>
+          <%= form.submit 'Delete', class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this controller?' } %>
+        <% end %>
+
+        <%= link_to 'Edit', edit_manager_path(@manager), class: 'btn btn-info me-2' %>
+        <%= link_to 'Back to List', managers_path, class: 'btn btn-secondary' %>
+      </div>
+    </div>
+  </div>
+</div>

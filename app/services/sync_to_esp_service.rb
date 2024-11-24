@@ -1,22 +1,21 @@
-# app/services/sync_to_esp_service.rb
 class SyncToEspService
   require 'base64'
 
-  def initialize(controlador)
-    @controlador = controlador
+  def initialize(locker)
+    @locker = locker
   end
 
   def call
     # Lógica para enviar la sincronización MQTT
     topic = "sincronizar"
     mensaje = {
-      id: @controlador.id,
-      modelo_id: @controlador.modelo_id,
-      casilleros: @controlador.casilleros.map { |casillero| { id: casillero.id, clave: casillero.clave } }
+      id: @locker.id,
+      modelo_id: @locker.predictor_id,
+      casilleros: @manager.lockers.map { |locker| { id: locker.id, clave: locker.clave } }
     }
     
-    if @controlador.modelo&.txt_file&.attached?
-      contenido_archivo = @controlador.modelo.txt_file.download
+    if @locker.predictor&.txt_file&.attached?
+      contenido_archivo = @manager.predictor.txt_file.download
       mensaje[:archivo_txt] = Base64.encode64(contenido_archivo)
     end
     Rails.logger.info("Enviando mensaje MQTT al topic '#{topic}': #{mensaje.to_json}")

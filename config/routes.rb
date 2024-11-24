@@ -1,20 +1,20 @@
 Rails.application.routes.draw do
   get 'home/index'
-  
-  devise_for :usuarios, controllers: {
-    registrations: "usuarios/registrations",
-    sessions: "usuarios/sessions",
-    omniauth_callbacks: "usuarios/omniauth_callbacks"
+
+  devise_for :users, controllers: {
+    registrations: "users/registrations",
+    sessions: "users/sessions",
+    omniauth_callbacks: "users/omniauth_callbacks"
   }
 
-  resources :usuarios, only: [:index, :show, :edit, :update, :destroy] do
+  resources :users, only: [:index, :show, :edit, :update, :destroy] do
     collection do
-      get :registro 
+      get :register
     end
   end
 
-  devise_scope :usuario do
-    authenticated :usuario do
+  devise_scope :user do
+    authenticated :user do
       root 'home#index', as: :authenticated_root
     end
 
@@ -23,26 +23,25 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :casilleros, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+  resources :lockers, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
     member do
-      patch :generar_contrasena
+      patch :generate_password
     end
   end
 
-  resources :controladores do
-    resources :casilleros, only: [:new, :create, :destroy, :update]
+  resources :managers do
+    resources :lockers, only: [:new, :create, :destroy, :update]
     member do
-      get :sincronizar # Ruta para sincronizar un controlador con el ESP32
-      post :asignar_casillero # Ruta para asignar un casillero existente
-      delete :desasignar_casillero # Ruta para desasignar un casillero existente
+      get :synchronize # Route to synchronize a manager with ESP32
+      post :assign_locker # Route to assign an existing locker
+      delete :unassign_locker # Route to unassign an existing locker
     end
   end
 
-  resources :superusuario, only: [:index]
-  resources :modelos 
-  resources :metricas, only: [:index]
-  resources :casilleros, only: [:index, :show] # Index y show de casilleros fuera de contexto de un controlador
-
+  resources :superuser, only: [:index]
+  resources :predictors
+  resources :metrics, only: [:index]
+  resources :lockers, only: [:index, :show] # Index and show for lockers outside the context of a manager
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
