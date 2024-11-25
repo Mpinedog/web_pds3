@@ -1,6 +1,6 @@
 class MetricsController < ApplicationController
   def index
-    @lockers = Locker.includes(:metric)
+    @lockers = current_user.lockers # Obtener casilleros asociados al usuario actual
 
     @openings_per_locker = @lockers.each_with_object({}) do |locker, hash|
       hash[locker.id] = locker.metric&.openings_count || 0

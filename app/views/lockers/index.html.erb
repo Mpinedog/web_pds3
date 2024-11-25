@@ -15,7 +15,7 @@
         <tr>
           <td><%= locker.id %></td>
           <td><%= locker.name %></td>
-          <td><%= locker.user.try(:first_name) %></td>
+          <td><%= locker.user.try(:username) %></td>
           <td><%= locker.manager.try(:name) %></td>
           <td>
             <%= link_to 'Ver', locker_path(locker), class: 'btn btn-primary btn-sm' %>

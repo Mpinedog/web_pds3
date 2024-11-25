@@ -17,8 +17,7 @@ class LockersController < ApplicationController
   def create
     @locker = @manager ? @manager.lockers.build(locker_params.except(:owner_email)) : Locker.new(locker_params.except(:owner_email))
 
-    user_email = locker_params[:owner_email]
-    @locker.user = User.find_by(email: user_email) if user_email.present?
+    assign_user_by_email(locker_params[:owner_email])
 
     @locker.metric ||= Metric.create(openings_count: 0, failed_attempts_count: 0, password_changes_count: 0)
 
@@ -34,11 +33,11 @@ class LockersController < ApplicationController
   end
 
   def update
-    assign_user_to_locker # Changed from assign_user_by_email to assign_user_to_locker
+    assign_user_by_email(locker_params[:owner_email])
 
     if @locker.update(locker_params.except(:owner_email))
-      send_locker_email(@locker) # Send email to the assigned user
-      redirect_to locker_path(@locker), notice: 'Locker successfully updated, and notification sent to the owner.'
+      LockerMailer.notify_owner(@locker).deliver_now
+      redirect_to locker_path(@locker), notice: 'Locker successfully updated and notification sent to the owner.'
     else
       render :edit
     end
@@ -55,8 +54,7 @@ class LockersController < ApplicationController
     @locker = Locker.find(params[:id])
   end
 
-  def assign_user_to_locker
-    email = params[:locker][:owner_email]
+  def assign_user_by_email(email)
     if email.present?
       user = User.find_by(email: email)
       if user
@@ -67,12 +65,8 @@ class LockersController < ApplicationController
     end
   end
 
-  def send_locker_email(locker)
-    LockerMailer.notify_owner(locker).deliver_now
-  end
-
   def locker_params
-    params.require(:locker).permit(:name, :password, :manager_id, :user_id)
+    params.require(:locker).permit(:name, :password, :manager_id, :owner_email)
   end
 
   def set_manager

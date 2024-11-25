@@ -1,9 +1,17 @@
 <div class="container mt-5">
   <h2>Detalles del Casillero <%= @locker.id %></h2>
   <p>Nombre: <%= @locker.name %></p>
+  <p>Id: <%= @locker.id %></p>
   <p><strong>Controlador:</strong> <%= @locker.manager.try(:name) %></p>
-  <p><strong>Usuario:</strong> <%= @locker.user.try(:first_name) %></p>
-
+  <p><strong>Usuario:</strong> <%= @locker.user.try(:username) %></p>
+  <p><strong>Abierto:</strong> <%= @locker.opening ? 'Sí' : 'No' %></p>
+  <p><strong>Métricas:</strong></p>
+    <ul>
+      <li><strong>Metric id:</strong> <%= @locker.metric.try(:id) %></
+      <li><strong>Aperturas:</strong> <%= @locker.metric.try(:openings_count) || 0 %></li>
+      <li><strong>Intentos fallidos:</strong> <%= @locker.metric.try(:failed_attempts_count) || 0 %></li>
+      <li><strong>Cambios de contraseña:</strong> <%= @locker.metric.try(:password_changes_count) || 0 %></li>
+    </ul>
   <p><strong>Clave:</strong> <%= @locker.password %></p>
 
   <%= link_to 'Editar', edit_locker_path(@locker), class: 'btn btn-warning' %>

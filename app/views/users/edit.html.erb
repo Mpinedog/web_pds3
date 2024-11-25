@@ -12,7 +12,10 @@
     </div>
   <% end %>
 
-  <%= f.hidden_field :username, value: @user.username %>
+  <div class="mb-3">
+    <%= f.label :username, 'Username', class: 'form-label' %>
+    <%= f.text_field :username, class: 'form-control', placeholder: 'Enter username', value: @user.username %>
+  </div>
 
   <div class="mb-3">
     <%= f.label :first_name, 'First Name', class: 'form-label' %>
