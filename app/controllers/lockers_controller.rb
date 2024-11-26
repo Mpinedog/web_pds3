@@ -35,6 +35,12 @@ class LockersController < ApplicationController
   def update
     assign_user_by_email(locker_params[:owner_email])
 
+    # Verificar si la contraseña ha cambiado
+    if locker_params[:password].present? && locker_params[:password] != @locker.password
+      @locker.metric.increment!(:password_changes_count)
+      Rails.logger.info("Locker #{@locker.id}: Password change recorded. Total changes: #{@locker.metric.password_changes_count}")
+    end
+
     if @locker.update(locker_params.except(:owner_email))
       LockerMailer.notify_owner(@locker).deliver_now
       redirect_to locker_path(@locker), notice: 'Locker successfully updated and notification sent to the owner.'
