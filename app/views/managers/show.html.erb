@@ -5,6 +5,8 @@
     </div>
     <div class="card-body">
       <p><strong>Name:</strong> <%= @manager.name.presence || "No name available" %></p>
+      <p><strong>ID:</strong> <%= @manager.id %></p>
+      <p><strong>MAC:</strong> <%= @manager.mac_address || "No email available" %></p>
       
       <% if @manager.predictor.present? %>
         <p><strong>Model:</strong> <%= @manager.predictor.name %></p>

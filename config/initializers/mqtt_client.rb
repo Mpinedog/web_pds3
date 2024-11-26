@@ -13,11 +13,12 @@ MQTT_CLIENT ||= MQTT::Client.connect(
 Thread.new do
   loop do
     begin
-      # Suscribirse a los tópicos "sincronizar" y "apertura"
+      # Suscribirse a los tópicos "sincronizar", "apertura" y "registros"
       MQTT_CLIENT.subscribe('sincronizar')
       MQTT_CLIENT.subscribe('apertura')
+      MQTT_CLIENT.subscribe('registros')
 
-      # Procesar mensajes de ambos tópicos
+      # Procesar mensajes de todos los tópicos
       MQTT_CLIENT.get do |topic, message|
         process_message(topic, message)
       end
@@ -39,9 +40,20 @@ def process_message(topic, message)
   # Parsear el mensaje JSON
   data = JSON.parse(message) rescue {}
 
-  # Validar el formato del mensaje
-  if !valid_message_format?(data)
-    Rails.logger.warn("Formato de mensaje inválido: #{message}")
+  case topic
+  when 'apertura'
+    process_opening_message(data)
+  when 'registros'
+    process_registration_message(data)
+  else
+    Rails.logger.warn("Tópico desconocido: #{topic}")
+  end
+end
+
+# Procesar mensaje del tópico "apertura"
+def process_opening_message(data)
+  unless valid_message_format?(data)
+    Rails.logger.warn("Formato de mensaje inválido para apertura: #{data}")
     return
   end
 
@@ -52,9 +64,62 @@ def process_message(topic, message)
   when 1
     handle_case_1(data['lockers']) # Caso 1: Fallo en la contraseña
   else
-    Rails.logger.warn("Caso desconocido: #{data['case']}")
+    Rails.logger.warn("Caso desconocido en apertura: #{data['case']}")
   end
 end
+
+# Procesar mensaje del tópico "registros"
+def process_registration_message(data)
+  unless data['mac'] && data['id'] && data['locker_count']
+    Rails.logger.warn("Formato de mensaje inválido para registros: #{data}")
+    return
+  end
+
+  manager = Manager.find_by(id: data['id'])
+  if manager
+    if manager.mac_address.present?
+      if manager.mac_address == data['mac']
+        Rails.logger.warn("El manager con ID #{manager.id} ya tiene la misma MAC asignada: #{manager.mac_address}. Proceso detenido.")
+      else
+        Rails.logger.warn("El manager con ID #{manager.id} ya tiene asignada una MAC diferente: #{manager.mac_address}. No se puede cambiar.")
+      end
+      return # Detener el proceso completamente si ya hay una MAC asignada
+    end
+
+    # Solo se llega aquí si el manager no tiene una MAC asignada
+    if manager.update(mac_address: data['mac'])
+      create_lockers_for_manager(manager, data['locker_count'].to_i)
+      Rails.logger.info("Registro completado para el manager #{manager.id} con MAC #{manager.mac_address}")
+    else
+      Rails.logger.error("Error al asignar la MAC para el manager #{manager.id}: #{manager.errors.full_messages.join(', ')}")
+    end
+  else
+    Rails.logger.warn("Manager con ID #{data['id']} no encontrado.")
+  end
+end
+
+
+
+# Crear casilleros para un manager
+def create_lockers_for_manager(manager, locker_count)
+  locker_count.times do |index|
+    locker_name = "Locker #{index + 1} (#{manager.name})"
+    metric = Metric.create(openings_count: 0, failed_attempts_count: 0, password_changes_count: 0)
+    locker = manager.lockers.create(
+      name: locker_name,
+      password: '1234', # Contraseña predeterminada
+      metric: metric,   # Asignar la métrica recién creada
+      user_id: nil,     # Inicialmente sin dueño (puede ajustarse si se necesita un usuario)
+      opening: false    # Estado inicial cerrado
+    )
+    if locker.persisted?
+      Rails.logger.info("Casillero creado: #{locker.name} (ID: #{locker.id})")
+    else
+      Rails.logger.error("Error al crear casillero: #{locker.errors.full_messages.join(', ')}")
+    end
+  end
+end
+
 
 # Manejar el caso 0: El locker se abrió
 def handle_case_0(lockers)

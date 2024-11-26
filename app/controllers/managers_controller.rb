@@ -48,11 +48,22 @@ class ManagersController < ApplicationController
   end
 
   def assign_locker
-    locker = Locker.find(params[:locker_id])
-    locker.update(manager: @manager)
-
-    redirect_to manager_path(@manager), notice: 'Locker successfully assigned.'
+    if params[:locker_id].blank?
+      redirect_to manager_path(@manager), alert: 'Please select a locker to assign.'
+      return
+    end
+  
+    begin
+      locker = Locker.find(params[:locker_id])
+      locker.update!(manager: @manager)
+      redirect_to manager_path(@manager), notice: 'Locker successfully assigned.'
+    rescue ActiveRecord::RecordNotFound
+      redirect_to manager_path(@manager), alert: 'The selected locker does not exist.'
+    rescue StandardError => e
+      redirect_to manager_path(@manager), alert: "An error occurred: #{e.message}"
+    end
   end
+  
 
   def unassign_locker
     locker = Locker.find(params[:locker_id])

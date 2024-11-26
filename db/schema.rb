@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_23_203243) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_26_163339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_23_203243) do
     t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.bigint "manager_id"
     t.bigint "metric_id", null: false
     t.string "name"
@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_23_203243) do
     t.datetime "updated_at", null: false
     t.bigint "predictor_id"
     t.bigint "user_id", null: false
+    t.string "mac_address"
     t.index ["predictor_id"], name: "index_managers_on_predictor_id"
     t.index ["user_id"], name: "index_managers_on_user_id"
   end
