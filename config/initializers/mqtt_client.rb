@@ -65,7 +65,7 @@ def handle_case_0(lockers)
     if locker
       locker.metric.increment!(:openings_count)
       Rails.logger.info("Casillero #{locker_id}: Apertura registrada.")
-      LockerMailer.notificar_apertura(locker).deliver_now
+      LockerMailer.notify_opening(locker).deliver_now
     else
       Rails.logger.warn("Casillero con ID #{locker_id} no encontrado")
     end

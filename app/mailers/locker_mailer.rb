@@ -8,7 +8,7 @@ class LockerMailer < ApplicationMailer
     mail(to: @user.email, subject: "Notificación de Casillero Asignado")
   end
 
-  def notificar_apertura(locker)
+  def notify_opening(locker)
     @locker = locker
     @user = locker.user
     mail(to: @user.email, subject: 'Notificación de Apertura de Casillero')

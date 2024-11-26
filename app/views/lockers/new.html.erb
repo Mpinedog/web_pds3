@@ -21,8 +21,8 @@
   </div>
 
   <div class="mb-3">
-    <%= form.label :user_id, "Correo Electrónico del Dueño", class: "form-label" %>
-    <%= form.collection_select :user_id, User.all, :id, :email, { prompt: "Seleccione un correo" }, class: "form-select" %>
+    <%= form.label :owner_email, "Correo Electrónico del Dueño", class: "form-label" %>
+    <%= form.collection_select :owner_email, User.all, :email, :email, { prompt: "Seleccione un correo" }, class: "form-select" %>
   </div>
 
   <div class="mb-3">
