@@ -102,6 +102,7 @@ class ManagersController < ApplicationController
     end
 
     message = {
+      mac: manager.mac_address,
       id: manager.id,
       predictor_id: manager.predictor.id,
       lockers: lockers_data

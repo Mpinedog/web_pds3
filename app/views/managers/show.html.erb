@@ -6,15 +6,21 @@
     <div class="card-body">
       <p><strong>Name:</strong> <%= @manager.name.presence || "No name available" %></p>
       <p><strong>ID:</strong> <%= @manager.id %></p>
-      <p><strong>MAC:</strong> <%= @manager.mac_address || "No email available" %></p>
-      
+      <p><strong>MAC:</strong> <%= @manager.mac_address.presence || "No MAC assigned" %></p>
+      <p>
+        <strong>Status:</strong> 
+        <% if @manager.active %>
+          <span class="text-success">Connected</span>
+        <% else %>
+          <span class="text-danger">Disconnected</span>
+        <% end %>
+      </p>
+
       <% if @manager.predictor.present? %>
         <p><strong>Model:</strong> <%= @manager.predictor.name %></p>
       <% else %>
         <p><strong>Model:</strong> No model assigned</p>
       <% end %>
-
-      <p><strong>Active Lockers:</strong> <%= @manager.active ? 'Yes' : 'No' %></p>
 
       <h4>Associated Lockers</h4>
       <% if @manager.lockers.any? %>
