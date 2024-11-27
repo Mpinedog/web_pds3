@@ -14,3 +14,43 @@
  *= require_self
  */
  @import "bootstrap";
+
+html {
+    /* background: linear-gradient(to right, rgb(8, 26, 48), rgb(2, 30, 30));
+    background: url('https://raw.githubusercontent.com/D3Ext/aesthetic-wallpapers/main/images/alfa.png') no-repeat center/cover; */
+    color: aliceblue;
+}
+
+.bb {
+    background: 
+        url('https://raw.githubusercontent.com/D3Ext/aesthetic-wallpapers/main/images/alfa.png') repeat center/cover,
+        linear-gradient(to right, rgba(0, 0, 0, 0.8 ), rgba(40, 11, 82, 0.8));
+    background-blend-mode: overlay;
+    color: aliceblue;
+}
+
+.bb::after {
+    background-color: #444;
+}
+
+.myb {
+    background: linear-gradient(to right, rgb(8, 26, 48), rgb(2, 30, 30));
+    color: aliceblue;
+}
+
+.myb_darker {
+    background-color: rgb(6, 18, 33);
+    color: aliceblue;
+}
+
+.my-card {
+    /* background-color: #555;
+    opacity: 0.3; */
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    /* border: 2px solid rgb(3, 3, 22); */
+    border-radius: 1rem;
+    padding: 10%;
+    /* filter: drop-shadow(0 0 1rem black); */
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
