@@ -1,6 +1,7 @@
 class Locker < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :manager, optional: true
+  has_many :openings, dependent: :destroy
   belongs_to :metric, class_name: 'Metric', foreign_key: 'metric_id', optional: true
 
   validates :name, presence: true

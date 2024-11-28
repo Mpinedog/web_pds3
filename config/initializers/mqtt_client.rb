@@ -25,12 +25,13 @@ Thread.new do
       MQTT_CLIENT.get do |topic, message|
         process_message(topic, message)
       end
-    rescue MQTT::ProtocolException => e
-      Rails.logger.error("Error de protocolo MQTT: #{e.message}")
-      sleep(5)
+    rescue Errno::ECONNRESET, MQTT::ProtocolException => e
+      Rails.logger.error("Error de conexión MQTT: #{e.message}. Reconectando...")
+      MQTT_CLIENT.disconnect rescue nil
+      MQTT_CLIENT = connect_mqtt_client
       retry
     rescue => e
-      Rails.logger.error("Error inesperado en el cliente MQTT: #{e.message}")
+      Rails.logger.error("Error inesperado en el cliente MQTT: #{e.message}. Reintentando en 5 segundos.")
       sleep(5)
       retry
     end
@@ -99,20 +100,29 @@ def process_connected_message(data)
   end
 end
 
-# Procesar mensaje del tópico "apertura"
 def process_opening_message(data)
-  unless valid_message_format?(data)
+  unless data['mac'].present? && data['locker'].present? && data['case'].present?
     Rails.logger.warn("Formato de mensaje inválido para apertura: #{data}")
     return
   end
 
-  case data['case']
-  when 0
-    handle_case_0(data['lockers']) # Caso 0: Apertura exitosa
-  when 1
-    handle_case_1(data['lockers']) # Caso 1: Fallo en la contraseña
+  manager = Manager.find_by(mac_address: data['mac'])
+  if manager
+    locker = manager.lockers.offset(data['locker'] - 1).first # Identificar locker por índice
+    if locker
+      case data['case']
+      when 0
+        register_successful_opening(locker)
+      when 1
+        register_failed_attempt(locker)
+      else
+        Rails.logger.warn("Caso desconocido en apertura: #{data['case']}")
+      end
+    else
+      Rails.logger.warn("Locker con índice #{data['locker']} no encontrado para Manager #{manager.id}")
+    end
   else
-    Rails.logger.warn("Caso desconocido en apertura: #{data['case']}")
+    Rails.logger.warn("Manager con MAC #{data['mac']} no encontrado.")
   end
 end
 
@@ -165,35 +175,17 @@ def create_lockers_for_manager(manager, locker_count)
   end
 end
 
-# Manejar el caso 0: El locker se abrió
-def handle_case_0(lockers)
-  lockers.each do |locker_data|
-    locker_id = locker_data['id']
-    locker = Locker.find_by(id: locker_id)
-    
-    if locker
-      locker.metric.increment!(:openings_count)
-      Rails.logger.info("Casillero #{locker_id}: Apertura registrada.")
-      LockerMailer.notify_opening(locker).deliver_now
-    else
-      Rails.logger.warn("Casillero con ID #{locker_id} no encontrado")
-    end
-  end
+# Registrar apertura exitosa
+def register_successful_opening(locker)
+  locker.openings.create!(opened_at: Time.current)
+  locker.metric.increment!(:openings_count)
+  Rails.logger.info("Locker #{locker.id} apertura exitosa registrada.")
 end
 
-# Manejar el caso 1: Fallo en la contraseña
-def handle_case_1(lockers)
-  lockers.each do |locker_data|
-    locker_id = locker_data['id']
-    locker = Locker.find_by(id: locker_id)
-    
-    if locker && locker.metric.present?
-      locker.metric.increment!(:failed_attempts_count)
-      Rails.logger.info("Casillero #{locker_id}: Fallo en la apertura registrado.")
-    else
-      Rails.logger.warn("Casillero con ID #{locker_id} no encontrado o métrica no asociada")
-    end
-  end
+# Registrar intento fallido
+def register_failed_attempt(locker)
+  locker.metric.increment!(:failed_attempts_count)
+  Rails.logger.info("Locker #{locker.id} intento fallido registrado.")
 end
 
 # Método para validar el formato del mensaje
