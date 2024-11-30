@@ -8,6 +8,8 @@ class User < ApplicationRecord
   has_many :lockers
 
   after_save :assign_predictor_to_managers, if: -> { saved_change_to_predictor_id? && predictor.present? }
+  after_update :sync_managers_if_predictor_changed
+
 
   validates :password, length: { minimum: 6 }, if: -> { password.present? }
   validates :email, presence: true, uniqueness: true
@@ -30,6 +32,14 @@ class User < ApplicationRecord
     managers.update_all(predictor_id: predictor_id)
     managers.each do |manager|
       SyncToEspService.new(manager).call
+    end
+  end
+
+  def sync_managers_if_predictor_changed
+    return unless saved_change_to_predictor_id?
+
+    managers.each do |manager|
+      ManagersController.new.synchronize_manager(manager)
     end
   end
 end

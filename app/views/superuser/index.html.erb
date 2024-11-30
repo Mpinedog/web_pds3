@@ -5,7 +5,7 @@
     <div class="col-md-3">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Number of Users</h5>
+          <h5 class="card-title">Users</h5>
           <p class="card-text display-6"><%= @user_count %></p>
         </div>
       </div>
@@ -13,7 +13,7 @@
     <div class="col-md-3">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Number of Controllers</h5>
+          <h5 class="card-title">Controllers</h5>
           <p class="card-text display-6"><%= @manager_count %></p>
         </div>
       </div>
@@ -29,8 +29,8 @@
     <div class="col-md-3">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Open Lockers</h5>
-          <p class="card-text display-6"><%= @open_lockers %></p>
+          <h5 class="card-title">Active Lockers</h5>
+          <p class="card-text display-6"><%= @active_lockers_count %></p>
         </div>
       </div>
     </div>
@@ -95,6 +95,7 @@
         <tr>
           <th scope="col">Locker</th>
           <th scope="col">Weekly Openings</th>
+          <th scope="col">Daily Openings</th>
           <th scope="col">Total Openings</th>
           <th scope="col">Failed Attempts</th>
           <th scope="col">Password Changes</th>
@@ -106,6 +107,7 @@
           <tr>
             <td><%= locker.name %></td>
             <td><%= @weekly_openings_per_locker[locker.id] || 0 %></td>
+            <td><%= @total_daily_openings[locker.id] || 0 %></td>
             <td><%= @openings_per_locker[locker.id] || 0 %></td>
             <td><%= @failed_attempts_per_locker[locker.id] || 0 %></td>
             <td><%= @password_changes_per_locker[locker.id] || 0 %></td>

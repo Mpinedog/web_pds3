@@ -8,6 +8,8 @@ class LockersController < ApplicationController
   end
 
   def show
+    @locker = Locker.find(params[:id])
+    @openings = @locker.openings.order(opened_at: :desc)
   end
 
   def new

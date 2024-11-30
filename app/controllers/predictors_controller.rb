@@ -36,8 +36,19 @@ class PredictorsController < ApplicationController
   end
 
   def destroy
-    @predictor.destroy
-    redirect_to predictors_path, notice: 'Predictor successfully deleted.'
+    @predictor = Predictor.find(params[:id])
+
+    # Desvincular usuarios relacionados
+    User.where(predictor_id: @predictor.id).update_all(predictor_id: nil)
+
+    # Desvincular managers relacionados
+    Manager.where(predictor_id: @predictor.id).update_all(predictor_id: nil)
+
+    if @predictor.destroy
+      redirect_to predictors_path, notice: 'Predictor and its associations successfully cleaned and deleted.'
+    else
+      redirect_to predictors_path, alert: 'Failed to delete predictor.'
+    end
   end
 
   private

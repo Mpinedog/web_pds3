@@ -45,7 +45,9 @@
       <tbody>
         <% @lockers.each do |locker| %>
           <tr>
-            <td><%= locker.name %></td>
+            <th scope="col">
+              <%= link_to locker.name, locker_path(locker), class: "text-decoration-none" %>
+            </th>
             <td><%= @weekly_openings_per_locker[locker.id] || 0 %></td>
             <td><%= @openings_per_locker[locker.id] || 0 %></td>
             <td><%= @failed_attempts_per_locker[locker.id] || 0 %></td>

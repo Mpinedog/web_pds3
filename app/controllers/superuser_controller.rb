@@ -2,6 +2,9 @@ class SuperuserController < ApplicationController
   def index
     @user_count = User.count
     @manager_count = Manager.count
+    @active_managers_count = Manager.where(active: true).count
+    @active_lockers_count = Locker.joins(:manager).where(managers: { active: true }).where(opening: true).count
+
 
     # Cargar todos los lockers con sus métricas y aperturas
     @lockers = Locker.includes(:metric, :openings)
@@ -27,6 +30,18 @@ class SuperuserController < ApplicationController
     @weekly_openings_per_locker = @lockers.each_with_object({}) do |locker, hash|
       hash[locker.id] = locker.openings.where(opened_at: start_of_week..end_of_week).count
     end
+
+    # Aperturas por día para cada locker
+    start_of_day = Time.current.beginning_of_day
+    end_of_day = Time.current.end_of_day
+
+    @daily_openings_per_locker = @lockers.each_with_object({}) do |locker, hash|
+      hash[locker.id] = locker.openings.where(opened_at: start_of_day..end_of_day).count
+    end
+
+    # Total de aperturas en el día
+    @total_daily_openings = @daily_openings_per_locker.values.sum
+
 
     # Última apertura por locker
     @last_opened_at_per_locker = @lockers.each_with_object({}) do |locker, hash|

@@ -48,6 +48,11 @@ class ManagersController < ApplicationController
   end
 
   def assign_locker
+    if @manager.lockers.count >= 4
+      redirect_to manager_path(@manager), alert: 'This manager cannot have more than 4 lockers.'
+      return
+    end
+    
     if params[:locker_id].blank?
       redirect_to manager_path(@manager), alert: 'Please select a locker to assign.'
       return
@@ -78,18 +83,42 @@ class ManagersController < ApplicationController
       return
     end
 
+    locker_count = @manager.lockers.count
+    
+
     topic = "sincronizar"
     message = build_sync_message(@manager)
 
     begin
+      locker_count = @manager.lockers.count
       MQTT_CLIENT.publish(topic, message.to_json)
       Rails.logger.info("Synchronization message sent to topic #{topic}: #{message}")
-      redirect_to manager_path(@manager), notice: 'Information synchronized with ESP32.'
+      redirect_to manager_path(@manager), notice: "Information synchronized with ESP32, this controller has #{locker_count} lockers assigned."
     rescue StandardError => e
       Rails.logger.error("Error during synchronization: #{e.message}")
       redirect_to manager_path(@manager), alert: "Error during synchronization: #{e.message}"
     end
   end
+
+  def synchronize_manager(manager)
+    if manager.lockers.empty?
+      Rails.logger.warn("Manager #{manager.id} has no lockers for synchronization.")
+      return false
+    end
+  
+    topic = "sincronizar"
+    message = build_sync_message(manager)
+  
+    begin
+      MQTT_CLIENT.publish(topic, message.to_json)
+      Rails.logger.info("Synchronization message sent to topic #{topic}: #{message}")
+      return true
+    rescue StandardError => e
+      Rails.logger.error("Error during synchronization for manager #{manager.id}: #{e.message}")
+      return false
+    end
+  end
+  
 
   private
 

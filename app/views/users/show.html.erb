@@ -58,6 +58,9 @@
   </div>
 
   <div class="text-center">
+    <%= form_with url: user_path(@user), method: :delete, class: 'd-inline' do |form| %>
+      <%= form.submit 'Eliminar', class: 'btn btn-danger btn-sm', data: { confirm: '¿Estás seguro de que deseas eliminar este usuario?' } %>
+    <% end %>
     <%= link_to 'Back to User List', users_path, class: 'btn btn-secondary btn-lg mt-3' %>
   </div>
 </div>

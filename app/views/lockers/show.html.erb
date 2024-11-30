@@ -1,18 +1,38 @@
 <div class="container mt-5">
-  <h2>Detalles del Casillero <%= @locker.id %></h2>
-  <p>Nombre: <%= @locker.name %></p>
-  <p>Id: <%= @locker.id %></p>
+  <h2>Informacion: <%= @locker.name %></h2>
+  <p><strong>Id: </strong> <%= @locker.id %></p>
   <p><strong>Controlador:</strong> <%= @locker.manager.try(:name) %></p>
   <p><strong>Usuario:</strong> <%= @locker.user.try(:username) %></p>
   <p><strong>Abierto:</strong> <%= @locker.opening ? 'Sí' : 'No' %></p>
-  <p><strong>Métricas:</strong></p>
+  <p><strong>Clave:</strong> <%= @locker.password %></p>
+
+  <p><strong>Estadisticas:</strong></p>
     <ul>
-      <li><strong>Metric id:</strong> <%= @locker.metric.try(:id) %></
       <li><strong>Aperturas:</strong> <%= @locker.metric.try(:openings_count) || 0 %></li>
       <li><strong>Intentos fallidos:</strong> <%= @locker.metric.try(:failed_attempts_count) || 0 %></li>
       <li><strong>Cambios de contraseña:</strong> <%= @locker.metric.try(:password_changes_count) || 0 %></li>
     </ul>
-  <p><strong>Clave:</strong> <%= @locker.password %></p>
+    <div class="container">
+  <h3 class="mb-4">Openings History</h3>
+  <% if @openings.any? %>
+    <table class="table table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Opened At</th>
+          <th scope="col">Closed At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @openings.each do |opening| %>
+          <tr>
+            <td><%= opening.opened_at.strftime("%d/%m/%Y %H:%M") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p class="text-muted">No openings recorded for this locker.</p>
+  <% end %>
 
   <%= link_to 'Editar', edit_locker_path(@locker), class: 'btn btn-warning' %>
   <%= form_with url: locker_path(@locker), method: :delete, class: 'd-inline' do |form| %>

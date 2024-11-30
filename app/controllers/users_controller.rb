@@ -53,6 +53,9 @@ class UsersController < ApplicationController
     if @user.super_user?
       redirect_to users_path, alert: "You cannot delete a superuser."
     else
+      @user.update(predictor_id: nil) # Remover predictor asociado si existe
+      @user.managers.update_all(user_id: nil) # Desasociar managers si los tiene
+      @user.lockers.update_all(user_id: nil)  # Desasociar lockers si los tiene
       @user.destroy
       redirect_to users_path, notice: 'User successfully deleted.'
     end
