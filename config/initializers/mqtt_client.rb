@@ -85,20 +85,35 @@ end
 
 # Procesar mensaje del tópico "conectado"
 def process_connected_message(data)
-  unless data['mac']
+  unless data['mac'].present? && data['mode'].present?
     Rails.logger.warn("Formato de mensaje inválido para conectado: #{data}")
     return
   end
 
   manager = Manager.find_by(mac_address: data['mac'])
   if manager
-    manager.update(active: true)
-    LAST_MESSAGE_TIMESTAMPS[data['mac']] = Time.current
-    Rails.logger.info("Manager #{manager.id} marcado como conectado por mensaje de estado.")
+    case data['mode']
+    when 'auto'
+      manager.update(active: true)
+      LAST_MESSAGE_TIMESTAMPS[data['mac']] = Time.current
+      Rails.logger.info("Manager #{manager.id} marcado como conectado por mensaje de estado.")
+    when 'manual'
+      message = data['response'] == "true" ? 
+        "Manager #{manager.name} está conectado." : 
+        "Manager #{manager.name} no está conectado."
+      Rails.cache.write("manager_#{manager.id}_flash", message, expires_in: 1.minute)
+      Rails.logger.info("Mensaje guardado para el Manager #{manager.name}: #{message}")
+    else
+      Rails.logger.warn("Modo desconocido recibido: #{data['mode']}")
+    end
   else
-    Rails.logger.warn("No se encontró un manager con MAC: #{data['mac']}")
+    Rails.logger.warn("No se encontró el Manager con MAC: #{data['mac']}")
   end
 end
+
+
+
+
 
 def process_opening_message(data)
   unless data['mac'].present? && data['locker'].present? && data['case'].present?
@@ -115,6 +130,8 @@ def process_opening_message(data)
         register_successful_opening(locker)
       when 1
         register_failed_attempt(locker)
+      when 2
+        register_successful_close(locker)
       else
         Rails.logger.warn("Caso desconocido en apertura: #{data['case']}")
       end
@@ -186,6 +203,18 @@ end
 def register_failed_attempt(locker)
   locker.metric.increment!(:failed_attempts_count)
   Rails.logger.info("Locker #{locker.id} intento fallido registrado.")
+end
+
+# Registrar cierre exitoso
+def register_successful_close(locker)
+  last_opening = locker.openings.order(opened_at: :desc).find_by(closed_at: nil)
+  
+  if last_opening
+    last_opening.update!(closed_at: Time.current)
+    Rails.logger.info("Locker #{locker.id} cierre exitoso registrado.")
+  else
+    Rails.logger.warn("No se encontró una apertura sin cerrar para el locker #{locker.id}.")
+  end
 end
 
 # Método para validar el formato del mensaje

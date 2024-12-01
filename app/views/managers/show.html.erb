@@ -52,6 +52,10 @@
       <% end %>
 
       <div class="mt-4">
+        <%= form_with url: check_connection_manager_path(@manager), method: :post, class: 'd-inline' do %>
+          <%= submit_tag 'Check Connection', class: 'btn btn-primary me-2' %>
+        <% end %>
+
         <%= link_to 'Synchronize with ESP32', synchronize_manager_path(@manager), method: :patch, class: 'btn btn-warning me-2', data: { confirm: "This controller has #{@manager.lockers.count} lockers assigned. Are you sure you want to synchronize this controller with the ESP32?" } %>
 
         <%= form_with url: manager_path(@manager), method: :delete, class: 'd-inline' do |form| %>
@@ -64,3 +68,25 @@
     </div>
   </div>
 </div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const checkFlash = () => {
+      fetch(`/managers/${managerId}/check_flash`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.flash) {
+            alert(data.flash);
+          }
+        });
+
+
+    setTimeout(checkFlash, 5000); // Consultar después de 5 segundos
+  });
+</script>
+
+
+
+

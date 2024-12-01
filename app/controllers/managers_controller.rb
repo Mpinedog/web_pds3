@@ -1,6 +1,6 @@
 class ManagersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_manager, only: [:show, :edit, :update, :destroy, :assign_locker, :synchronize]
+  before_action :set_manager, only: [:show, :edit, :update, :destroy, :assign_locker, :synchronize, :check_connection]
   before_action :authorize_user!, only: [:show, :edit, :update, :destroy, :assign_locker]
   require 'base64'
 
@@ -14,10 +14,19 @@ class ManagersController < ApplicationController
       redirect_to managers_path, alert: "Manager not found."
     else
       @available_lockers = Locker.where(manager_id: nil)
+  
+      # Verificar si hay un mensaje en el caché para el manager
+      flash_message = Rails.cache.read("manager_#{@manager.id}_flash")
+      if flash_message
+        flash[:notice] = flash_message
+        Rails.cache.delete("manager_#{@manager.id}_flash") # Limpiar el mensaje después de mostrarlo
+      end
     end
   end
   
-
+  
+  
+  
   def new
     @manager = Manager.new
   end
@@ -118,6 +127,36 @@ class ManagersController < ApplicationController
       return false
     end
   end
+
+  def check_connection
+    manager = Manager.find(params[:id])
+    topic = "conectado"
+    message = { mac: manager.mac_address, question: "connected?", mode: "manual" }
+  
+    begin
+      MQTT_CLIENT.publish(topic, message.to_json)
+      Rails.logger.info("Mensaje enviado a #{topic}: #{message}")
+      flash[:notice] = "Mensaje de conexión enviado correctamente."
+    rescue StandardError => e
+      Rails.logger.error("Error al enviar mensaje de conexión: #{e.message}")
+      flash[:alert] = "Error al verificar conexión: #{e.message}"
+    end
+  
+    redirect_to manager_path(manager)
+  end
+  
+  def check_flash
+    manager_id = params[:id]
+    flash_message = Rails.cache.read("manager_#{manager_id}_flash")
+    if flash_message
+      Rails.cache.delete("manager_#{manager_id}_flash")
+      render json: { flash: flash_message }
+    else
+      render json: { flash: nil }
+    end
+  end
+  
+  
   
 
   private

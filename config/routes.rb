@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
   resources :managers do
     member do
+      get :check_flash # Nueva ruta para verificar el flash
+      post :check_connection
       patch :synchronize
     end
     resources :lockers, only: [:new, :create, :destroy, :update]
@@ -40,6 +42,13 @@ Rails.application.routes.draw do
       delete :unassign_locker # Route to unassign an existing locker
     end
   end
+
+  resources :managers do
+    member do
+      get :check_flash
+    end
+  end
+  
 
    # Superuser dashboard
    resources :superuser, only: [:index] do

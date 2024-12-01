@@ -76,6 +76,13 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <% end %>
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %>" role="alert">
+    <%= value %>
+  </div>
+<% end %>
+
+
 
 
   <!-- Scripts de Bootstrap para la compatibilidad con la barra de navegación -->
