@@ -21,7 +21,7 @@ Devise.setup do |config|
 
   config.sign_out_via = :get
 
-  config.omniauth :google_oauth2, Rails.application.credentials.dig(:google, :client_id), Rails.application.credentials.dig(:google, :client_secret)
+  config.omniauth :google_oauth2, ENV["GOOGLE_CLIENT_ID"], ENV["GOOGLE_CLIENT_SECRET"]
   OmniAuth.config.allowed_request_methods = %i[get post]
 
 
