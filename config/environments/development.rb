@@ -1,6 +1,8 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+
+  config.hosts << "pds13.duckdns.org"
  
   config.enable_reloading = true
 
