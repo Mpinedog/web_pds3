@@ -98,11 +98,13 @@ def process_connected_message(data)
       LAST_MESSAGE_TIMESTAMPS[data['mac']] = Time.current
       Rails.logger.info("Manager #{manager.id} marcado como conectado por mensaje de estado.")
     when 'manual'
-      message = data['response'] == "true" ? 
-        "Manager #{manager.name} está conectado." : 
-        "Manager #{manager.name} no está conectado."
-      Rails.cache.write("manager_#{manager.id}_flash", message, expires_in: 1.minute)
-      Rails.logger.info("Mensaje guardado para el Manager #{manager.name}: #{message}")
+      if data['response'] == "true"
+        manager.update(active: true)
+        LAST_MESSAGE_TIMESTAMPS[data['mac']] = Time.current
+        Rails.logger.info("Manager #{manager.id} marcado como conectado por verifiacion manual.")
+      else
+        Rails.logger.info("Manager #{manager.id} no se ha conectado por verificacion manual.")
+      end
     else
       Rails.logger.warn("Modo desconocido recibido: #{data['mode']}")
     end

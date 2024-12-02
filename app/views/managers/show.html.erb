@@ -68,25 +68,3 @@
     </div>
   </div>
 </div>
-
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const checkFlash = () => {
-      fetch(`/managers/${managerId}/check_flash`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.flash) {
-            alert(data.flash);
-          }
-        });
-
-
-    setTimeout(checkFlash, 5000); // Consultar después de 5 segundos
-  });
-</script>
-
-
-
-

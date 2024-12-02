@@ -34,20 +34,22 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-    
-    # Assign current `username` value if the field is blank
-    user_params[:username] = @user.username if user_params[:username].blank?
-    
     if @user.update(user_params)
-      flash[:notice] = 'Profile successfully updated.'
+      # Sincronizar managers relacionados
+      @user.managers.each do |manager|
+        result = ManagersController.new.synchronize_manager(manager)
+        unless result
+          Rails.logger.warn("Manager #{manager.id} failed to synchronize after user predictor update.")
+        end
+      end
+      flash[:notice] = "User and related managers updated successfully."
       redirect_to users_path
     else
-      @predictors = Predictor.all
-      flash[:alert] = 'There was a problem updating the profile.'
+      flash[:alert] = "Error updating user."
       render :edit
     end
   end
+  
   
   def destroy
     if @user.super_user?

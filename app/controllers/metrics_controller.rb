@@ -46,6 +46,10 @@ class MetricsController < ApplicationController
     # Locker con más intentos fallidos
     most_failed_attempts_locker_id = @failed_attempts_per_locker.max_by { |_id, count| count }&.first
     @most_failed_attempts_locker = @lockers.find { |locker| locker.id == most_failed_attempts_locker_id }
+
+    #calculate_daily_openings
+    calculate_daily_openings
+    
   end
 
   def show
@@ -95,4 +99,23 @@ class MetricsController < ApplicationController
     total_attempts = total_openings + @failed_attempts_per_locker.values.sum
     total_attempts.positive? ? (total_openings / total_attempts.to_f * 100).round(2) : 0
   end
+
+  def calculate_daily_openings
+    start_date = 7.days.ago.to_date
+    end_date = Date.today
+  
+    # Inicializa las fechas con valores en 0
+    @daily_openings = (start_date..end_date).map { |date| [date, 0] }.to_h
+  
+    # Obtén los conteos reales
+    actual_openings = Opening
+      .where(opened_at: start_date.beginning_of_day..end_date.end_of_day)
+      .group("DATE(opened_at)")
+      .count
+  
+    # Combina los valores reales con los inicializados
+    @daily_openings.merge!(actual_openings) { |_key, old_val, new_val| old_val + new_val }
+  end
+  
+  
 end

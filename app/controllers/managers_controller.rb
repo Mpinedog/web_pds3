@@ -110,6 +110,11 @@ class ManagersController < ApplicationController
   end
 
   def synchronize_manager(manager)
+    if manager.predictor.nil?
+      Rails.logger.warn("Manager #{manager.id} does not have a predictor assigned. Synchronization aborted.")
+      return false
+    end
+  
     if manager.lockers.empty?
       Rails.logger.warn("Manager #{manager.id} has no lockers for synchronization.")
       return false
@@ -127,6 +132,7 @@ class ManagersController < ApplicationController
       return false
     end
   end
+  
 
   def check_connection
     manager = Manager.find(params[:id])
@@ -168,23 +174,24 @@ class ManagersController < ApplicationController
         password: locker.password
       }
     end
-
+  
     message = {
       mac: manager.mac_address,
       id: manager.id,
-      predictor_id: manager.predictor.id,
+      predictor_id: manager.predictor&.id, # Maneja `nil` con el operador seguro
       lockers: lockers_data
     }
-
+  
     if manager.predictor&.txt_file&.attached?
       file_content = manager.predictor.txt_file.download
       message[:txt_file] = Base64.encode64(file_content)
     else
       message[:txt_file] = nil
     end
-
+  
     message
   end
+  
 
 
   def authorize_user!
