@@ -2,6 +2,8 @@ class LockersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_manager, if: -> { params[:manager_id].present? }
   before_action :set_locker, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_manager_owner, only: [:edit, :update, :destroy]
+
 
   def index
     @lockers = Locker.all
@@ -81,5 +83,11 @@ class LockersController < ApplicationController
 
   def locker_params
     params.require(:locker).permit(:name, :password, :manager_id, :owner_email)
+  end
+
+  def authorize_manager_owner
+    unless @locker.manager.user_id == current_user.id
+      redirect_to lockers_path, alert: 'You do not have permission to edit or delete this locker.'
+    end
   end
 end
