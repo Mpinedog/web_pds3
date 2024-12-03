@@ -78,7 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_12_01_211725) do
 
   create_table "openings", force: :cascade do |t|
     t.bigint "locker_id", null: false
-    t.datetime "opened_at"
+    t.datetime "opened_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "closed_at"

@@ -40,13 +40,53 @@ html {
 }
 
 .my-card {
-    /* background-color: #555;
-    opacity: 0.3; */
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px);
-    /* border: 2px solid rgb(3, 3, 22); */
     border-radius: 1rem;
     padding: 10%;
-    /* filter: drop-shadow(0 0 1rem black); */
     box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.custom-table {
+    width: 100%;
+    margin: 0 auto 20px;
+    border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    text-align: center;
+}
+
+.custom-table thead {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #000000;
+}
+
+.custom-table th {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.custom-table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.custom-table td {
+    padding: 15px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.custom-table tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.custom-table tbody tr:last-child td {
+    border-bottom: none;
 }

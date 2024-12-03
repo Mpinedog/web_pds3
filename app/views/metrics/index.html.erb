@@ -4,23 +4,23 @@
   <!-- Summary of general statistics -->
   <div class="row mb-4">
     <div class="col-md-4">
-      <div class="card text-center">
-        <div class="card-body myb">
+      <div class="my-card text-center">
+        <div class="card-body">
           <h5 class="card-title">Success Rate of Openings</h5>
           <p class="card-text display-6"><%= number_to_percentage(@success_rate_openings, precision: 2) %></p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card text-center">
-        <div class="card-body myb">
+      <div class="my-card text-center">
+        <div class="card-body">
           <h5 class="card-title">Open Lockers</h5>
           <p class="card-text display-6"><%= @open_lockers %></p>
         </div>
       </div>
     </div>
     <div class="col-md-4">
-      <div class="card text-center">
+      <div class="my-card text-center">
         <div class="card-body">
           <h5 class="card-title">Weekly Total Openings</h5>
           <p class="card-text display-6"><%= @total_weekly_openings %></p>
@@ -30,9 +30,9 @@
   </div>
 
   <!-- Table of metrics by locker -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead class="table-dark">
+  <div class="">
+    <table class="custom-table">
+      <thead class="">
         <tr>
           <th scope="col">Locker</th>
           <th scope="col">Weekly Openings</th>
@@ -58,57 +58,59 @@
       </tbody>
     </table>
   </div>
-</div>
 
 
-
-<div class="container mt-5">
-  <h3 class="text-center">Daily Locker Openings (Last 7 Days)</h3>
-  <table class="table table-bordered table-hover mt-4">
-    <thead class="table-dark">
+<div class="">
+<h3 class="text-center">Daily Locker Openings (Last 7 Days)</h3>
+<table class="custom-table">
+  <thead class="">
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Total Openings</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @daily_openings.each do |date, count| %>
       <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Total Openings</th>
+        <td><%= date.strftime("%d/%m/%Y") %></td>
+        <td><%= count %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @daily_openings.each do |date, count| %>
-        <tr>
-          <td><%= date.strftime("%d/%m/%Y") %></td>
-          <td><%= count %></td>
-        </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<div class="row mb-4 justify-content-evenly">
+<div class="col-md-5">
+  <div class="my-card text-center">
+    <div class="card-body">
+      <h5 class="card-title">Most Opened Locker</h5>
+      <% if @most_opened_locker %>
+        <p class="card-text display-6"><%= @most_opened_locker.name %></p>
+        <p>Total Openings: <%= @openings_per_locker[@most_opened_locker.id] || 0 %></p>
+      <% else %>
+        <p class="text-muted">No openings recorded yet.</p>
       <% end %>
-    </tbody>
-  </table>
-</div>
-
-<div class="row mb-4">
-  <div class="col-md-6">
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Most Opened Locker</h5>
-        <% if @most_opened_locker %>
-          <p class="card-text display-6"><%= @most_opened_locker.name %></p>
-          <p>Total Openings: <%= @openings_per_locker[@most_opened_locker.id] || 0 %></p>
-        <% else %>
-          <p class="text-muted">No openings recorded yet.</p>
-        <% end %>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="card text-center">
-      <div class="card-body">
-        <h5 class="card-title">Locker with Most Failed Attempts</h5>
-        <% if @most_failed_attempts_locker %>
-          <p class="card-text display-6"><%= @most_failed_attempts_locker.name %></p>
-          <p>Failed Attempts: <%= @failed_attempts_per_locker[@most_failed_attempts_locker.id] || 0 %></p>
-        <% else %>
-          <p class="text-muted">No failed attempts recorded yet.</p>
-        <% end %>
-      </div>
     </div>
   </div>
 </div>
+
+<div class="col-md-5">
+  <div class="my-card text-center">
+    <div class="card-body">
+      <h5 class="card-title">Locker with Most Failed Attempts</h5>
+      <% if @most_failed_attempts_locker %>
+        <p class="card-text display-6"><%= @most_failed_attempts_locker.name %></p>
+        <p>Failed Attempts: <%= @failed_attempts_per_locker[@most_failed_attempts_locker.id] || 0 %></p>
+      <% else %>
+        <p class="text-muted">No failed attempts recorded yet.</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</div>
+
 

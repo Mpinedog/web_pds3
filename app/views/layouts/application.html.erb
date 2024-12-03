@@ -63,8 +63,9 @@
       </div>
     </div>
   </nav>
-  
-  <%= yield %>
+
+  <br />
+
   <% if flash[:notice] %>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
       <%= flash[:notice] %>
@@ -77,6 +78,8 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <% end %>
+  
+  <%= yield %>
 
   <!-- Scripts de Bootstrap para la compatibilidad con la barra de navegación -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
