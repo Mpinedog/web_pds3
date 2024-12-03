@@ -44,14 +44,19 @@ class LockersController < ApplicationController
       @locker.metric.increment!(:password_changes_count)
       Rails.logger.info("Locker #{@locker.id}: Password change recorded. Total changes: #{@locker.metric.password_changes_count}")
     end
-
+  
     if @locker.update(locker_params.except(:owner_email))
-      LockerMailer.notify_owner(@locker).deliver_now
+      user = @locker.user # Obtén el usuario asociado al locker
+      if user.present?
+        send_predictor_mail(@locker.manager.predictor_id, user, @locker)
+      else
+        Rails.logger.warn("No user associated with Locker #{@locker.id}. Email not sent.")
+      end
       redirect_to locker_path(@locker), notice: 'Locker successfully updated and notification sent to the owner.'
     else
       render :edit
     end
-  end
+  end  
 
   def destroy
     @locker.destroy
@@ -88,6 +93,20 @@ class LockersController < ApplicationController
   def authorize_manager_owner
     unless @locker.manager.user_id == current_user.id
       redirect_to lockers_path, alert: 'You do not have permission to edit or delete this locker.'
+    end
+  end
+
+  def send_predictor_mail(predictor_id, user, locker)
+    case predictor_id
+    when 1
+      ManagerMailer.predictor_one_email(user, locker).deliver_now
+      Rails.logger.info("Email for Predictor 1 sent to User #{user.id} for Locker #{locker.id}.")
+    when 2
+      ManagerMailer.predictor_two_email(user, locker).deliver_now
+      Rails.logger.info("Email for Predictor 2 sent to User #{user.id} for Locker #{locker.id}.")
+    else
+      ManagerMailer.predictor_one_email(user, locker).deliver_now
+      Rails.logger.info("Email for Predictor 1 sent to User #{user.id} for Locker #{locker.id}.")
     end
   end
 end

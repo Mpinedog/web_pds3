@@ -113,10 +113,6 @@ def process_connected_message(data)
   end
 end
 
-
-
-
-
 def process_opening_message(data)
   unless data['mac'].present? && data['locker'].present? && data['case'].present?
     Rails.logger.warn("Formato de mensaje inválido para apertura: #{data}")

@@ -44,7 +44,12 @@ class ManagersController < ApplicationController
   end
 
   def update
+    old_predictor_id = @manager.predictor_id
+
     if @manager.update(manager_params)
+      if old_predictor_id != @manager.predictor_id
+        send_emails_to_locker_owners(@manager)
+      end
       redirect_to @manager, notice: 'Manager successfully updated.'
     else
       render :edit
@@ -119,7 +124,7 @@ class ManagersController < ApplicationController
       Rails.logger.warn("Manager #{manager.id} has no lockers for synchronization.")
       return false
     end
-  
+
     topic = "sincronizar"
     message = build_sync_message(manager)
   
@@ -192,8 +197,6 @@ class ManagersController < ApplicationController
     message
   end
   
-
-
   def authorize_user!
     unless @manager.user_id == current_user.id
       redirect_to managers_path, alert: 'You do not have permission to view or edit this manager.'
@@ -209,4 +212,27 @@ class ManagersController < ApplicationController
   def manager_params
     params.require(:manager).permit(:name, :active_lockers, :predictor_id)
   end
+
+  def send_emails_to_locker_owners(manager)
+    predictor_id = manager.predictor_id
+  
+    manager.lockers.each do |locker|
+      next unless locker.user # Asegúrate de que el locker tenga un usuario asignado
+      send_predictor_mail(predictor_id, locker.user, locker)
+    end
+  end
+  
+  def send_predictor_mail(predictor_id, user, locker)
+    case predictor_id
+    when 1
+      LockerMailer.predictor_one_email(user, locker).deliver_now
+      Rails.logger.info("Email for Predictor 1 sent to User #{user.id} for Locker #{locker.id}.")
+    when 2
+      LockerMailer.predictor_two_email(user, locker).deliver_now
+      Rails.logger.info("Email for Predictor 2 sent to User #{user.id} for Locker #{locker.id}.")
+    else
+      Rails.logger.warn("No specific email template defined for Predictor ID #{predictor_id}.")
+    end
+  end
+
 end
