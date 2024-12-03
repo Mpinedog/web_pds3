@@ -35,6 +35,7 @@
       <thead class="">
         <tr>
           <th scope="col">Locker</th>
+          <th scope="col">Daily Openings</th>
           <th scope="col">Weekly Openings</th>
           <th scope="col">Total Openings</th>
           <th scope="col">Failed Attempts</th>
@@ -48,6 +49,7 @@
             <th scope="col">
               <%= link_to locker.name, locker_path(locker), class: "text-decoration-none" %>
             </th>
+            <td><%= @daily_openings_per_locker[locker.id] || 0 %></td>
             <td><%= @weekly_openings_per_locker[locker.id] || 0 %></td>
             <td><%= @openings_per_locker[locker.id] || 0 %></td>
             <td><%= @failed_attempts_per_locker[locker.id] || 0 %></td>
@@ -59,18 +61,10 @@
     </table>
   </div>
 
-
-<div class="">
-<h3 class="text-center">Daily Locker Openings (Last 7 Days)</h3>
-<table class="custom-table">
-  <thead class="">
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Total Openings</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @daily_openings.each do |date, count| %>
+<div class="container mt-5">
+  <h3 class="text-center">Daily Locker Openings (Last 7 Days)</h3>
+  <table class="table table-bordered table-hover mt-4">
+    <thead class="table-dark">
       <tr>
         <td><%= date.strftime("%d/%m/%Y") %></td>
         <td><%= count %></td>
@@ -112,5 +106,3 @@
 
 
 </div>
-
-
