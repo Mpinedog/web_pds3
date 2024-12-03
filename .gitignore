@@ -38,3 +38,5 @@
 /config/credentials/devolpment.key
 
 /config/credentials/development.key
+
+/config/credentials/production.key

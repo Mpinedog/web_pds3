@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Notificación de desconexión</h1>
+    <p>Hola <%= @user.first_name %>,</p>
+    <p>
+      Te informamos que el controlador "<strong><%= @manager.name %></strong>" con
+      MAC <strong><%= @manager.mac_address %></strong> se a desconectado del sistema.
+    </p>
+    <p>Por favor, revisa el estado del controlador.</p>
+    <p>Saludos,<br>Equipo de Soporte</p>
+  </body>
+</html>

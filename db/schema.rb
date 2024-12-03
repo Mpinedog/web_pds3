@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_11_26_163339) do
+ActiveRecord::Schema[7.1].define(version: 2024_12_01_211725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_26_163339) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "openings", force: :cascade do |t|
+    t.bigint "locker_id", null: false
+    t.datetime "opened_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "closed_at"
+    t.index ["locker_id"], name: "index_openings_on_locker_id"
+  end
+
   create_table "predictors", force: :cascade do |t|
     t.string "sign1"
     t.string "sign2"
@@ -132,6 +141,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_11_26_163339) do
   add_foreign_key "lockers", "users"
   add_foreign_key "managers", "predictors"
   add_foreign_key "managers", "users"
+  add_foreign_key "openings", "lockers"
   add_foreign_key "signs", "predictors"
   add_foreign_key "users", "predictors"
 end

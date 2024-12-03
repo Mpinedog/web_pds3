@@ -20,6 +20,10 @@ group :development do
   gem 'letter_opener'
 end
 
+gem 'chartkick'
+gem 'groupdate'
+
+
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"

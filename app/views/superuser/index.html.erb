@@ -2,15 +2,23 @@
 
 <div class="container">
   <div class="row mb-4">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Number of Users</h5>
+          <h5 class="card-title">Users</h5>
           <p class="card-text display-6"><%= @user_count %></p>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h5 class="card-title">Controllers</h5>
+          <p class="card-text display-6"><%= @manager_count %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
       <div class="card text-center">
         <div class="card-body">
           <h5 class="card-title">Success Rate of Openings</h5>
@@ -18,11 +26,11 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Open Lockers</h5>
-          <p class="card-text display-6"><%= @open_lockers %></p>
+          <h5 class="card-title">Active Lockers</h5>
+          <p class="card-text display-6"><%= @active_lockers_count %></p>
         </div>
       </div>
     </div>
@@ -32,41 +40,83 @@
     <div class="col-md-6">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Total Password Changes</h5>
-          <p class="card-text display-6"><%= @total_password_changes %></p>
+          <h5 class="card-title">Most Opened Locker</h5>
+          <% if @most_opened_locker %>
+            <p class="card-text display-6"><%= @most_opened_locker.name %></p>
+            <p>Total Openings: <%= @openings_per_locker[@most_opened_locker.id] || 0 %></p>
+          <% else %>
+            <p class="text-muted">No openings recorded yet.</p>
+          <% end %>
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="card text-center">
         <div class="card-body">
-          <h5 class="card-title">Number of Controllers</h5>
-          <p class="card-text display-6"><%= @manager_count %></p>
+          <h5 class="card-title">Locker with Most Failed Attempts</h5>
+          <% if @most_failed_attempts_locker %>
+            <p class="card-text display-6"><%= @most_failed_attempts_locker.name %></p>
+            <p>Failed Attempts: <%= @failed_attempts_per_locker[@most_failed_attempts_locker.id] || 0 %></p>
+          <% else %>
+            <p class="text-muted">No failed attempts recorded yet.</p>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
+  <div class="row mb-4">
+  <div class="col-md-6">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Total Weekly Openings</h5>
+        <p class="card-text display-6"><%= @total_weekly_openings %></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">Locker Most Opened This Week</h5>
+        <% if @most_weekly_opened_locker %>
+          <p class="card-text display-6"><%= @most_weekly_opened_locker.name %></p>
+          <p>Total Weekly Openings: <%= @weekly_openings_per_locker[@most_weekly_opened_locker.id] %></p>
+        <% else %>
+          <p class="text-muted">No openings this week.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
+  <!-- Tabla de métricas por locker -->
   <div class="table-responsive">
     <table class="table table-bordered table-hover">
       <thead class="table-dark">
         <tr>
           <th scope="col">Locker</th>
-          <th scope="col">Openings</th>
+          <th scope="col">Weekly Openings</th>
+          <th scope="col">Daily Openings</th>
+          <th scope="col">Total Openings</th>
           <th scope="col">Failed Attempts</th>
           <th scope="col">Password Changes</th>
+          <th scope="col">Last Opened</th>
         </tr>
       </thead>
       <tbody>
         <% @lockers.each do |locker| %>
           <tr>
             <td><%= locker.name %></td>
+            <td><%= @weekly_openings_per_locker[locker.id] || 0 %></td>
+            <td><%= @total_daily_openings[locker.id] || 0 %></td>
             <td><%= @openings_per_locker[locker.id] || 0 %></td>
             <td><%= @failed_attempts_per_locker[locker.id] || 0 %></td>
             <td><%= @password_changes_per_locker[locker.id] || 0 %></td>
+            <td><%= @last_opened_at_per_locker[locker.id]&.strftime("%d %b %Y %H:%M:%S") || "Never opened" %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
 </div>
+
+

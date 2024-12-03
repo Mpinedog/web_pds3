@@ -30,6 +30,11 @@ Rails.application.routes.draw do
   end
 
   resources :managers do
+    member do
+      get :check_flash # Nueva ruta para verificar el flash
+      post :check_connection
+      patch :synchronize
+    end
     resources :lockers, only: [:new, :create, :destroy, :update]
     member do
       get :synchronize # Route to synchronize a manager with ESP32
@@ -38,7 +43,19 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :superuser, only: [:index]
+  resources :managers do
+    member do
+      get :check_flash
+    end
+  end
+  
+
+   # Superuser dashboard
+   resources :superuser, only: [:index] do
+    collection do
+      delete :destroy_user # Custom route to delete users (optional)
+    end
+  end
   resources :predictors
   resources :metrics, only: [:index]
   resources :lockers, only: [:index, :show] # Index and show for lockers outside the context of a manager
