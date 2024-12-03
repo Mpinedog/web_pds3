@@ -40,7 +40,7 @@ class SuperuserController < ApplicationController
     end
 
     # Total de aperturas en el día
-    @total_daily_openings = @daily_openings_per_locker.values.sum
+    @daily_openings = @daily_openings_per_locker.values.sum
 
 
     # Última apertura por locker

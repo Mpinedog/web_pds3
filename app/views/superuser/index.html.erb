@@ -94,8 +94,8 @@
       <thead class="table-dark">
         <tr>
           <th scope="col">Locker</th>
-          <th scope="col">Weekly Openings</th>
           <th scope="col">Daily Openings</th>
+          <th scope="col">Weekly Openings</th>
           <th scope="col">Total Openings</th>
           <th scope="col">Failed Attempts</th>
           <th scope="col">Password Changes</th>
@@ -106,8 +106,8 @@
         <% @lockers.each do |locker| %>
           <tr>
             <td><%= locker.name %></td>
+            <td><%= @daily_openings_per_locker[locker.id] || 0 %></td>
             <td><%= @weekly_openings_per_locker[locker.id] || 0 %></td>
-            <td><%= @total_daily_openings[locker.id] || 0 %></td>
             <td><%= @openings_per_locker[locker.id] || 0 %></td>
             <td><%= @failed_attempts_per_locker[locker.id] || 0 %></td>
             <td><%= @password_changes_per_locker[locker.id] || 0 %></td>
