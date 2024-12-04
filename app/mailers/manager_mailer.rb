@@ -11,7 +11,7 @@ class ManagerMailer < ApplicationMailer
     @locker = locker
     @predictor = locker.manager.predictor
     @user = locker.user
-    @password = locker.password
+    @color_password = @locker.translate_password_to_colors
     mail(to: @locker.user.email, subject: 'Se le asigno un locker')
   end
 end
