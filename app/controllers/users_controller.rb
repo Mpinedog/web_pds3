@@ -70,7 +70,7 @@ class UsersController < ApplicationController
   end
 
   def authorize_super_user
-    redirect_to(authenticated_root_path, alert: 'You do not have permission to access this page.') unless current_user.super_user?
+    redirect_to(authenticated_root_path) unless current_user.super_user?
   end  
 
   def authorize_user_or_super_user!
