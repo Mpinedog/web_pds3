@@ -26,7 +26,17 @@ html {
         url('https://raw.githubusercontent.com/D3Ext/aesthetic-wallpapers/main/images/alfa.png') repeat center/cover,
         linear-gradient(to right, rgba(1, 63, 13, 0.99), rgba(11, 0, 39, 0.99), rgba(1, 63, 13, 0.99));
     background-blend-mode: overlay;
+    font-family: 'Roboto', 'Verdana', 'Arial', 'Helvetica';
     color: aliceblue;
+}
+
+.locker-link {
+    color: white;
+}
+
+.locker-link:hover {
+    color: white;
+    filter: drop-shadow(0 0 2px white);
 }
 
 .myb {
@@ -43,8 +53,76 @@ html {
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(20px);
     border-radius: 1rem;
-    padding: 10%;
     box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.flex-equal {
+    flex: 1;
+    text-align: center;
+}
+
+.co {
+    color: rgb(11, 146, 6);
+    font-weight: bold;
+    background-color: rgb(152, 255, 146);
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: 1px solid rgb(3, 119, 3);
+}
+
+.disco {
+    color: rgb(170, 15, 15);
+    font-weight: bold;
+    background-color: rgb(255, 146, 146);
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: 1px solid red;
+}
+
+.lister {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.my-card-sm {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    border-radius: 1rem;
+    padding: 5%;
+    box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.my-title {
+    background-color: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    padding: 10px 0;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.my-subtitle {
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    width: fit-content;
+    margin: 10px auto;
+    padding: 10px 20px;
+    color: #000;
+    border-radius: 10px;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: linear-gradient(to right, rgba(29, 29, 73, 0.7), rgba(2, 30, 30, 0.7));
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    color: aliceblue;
 }
 
 .custom-table {
@@ -89,4 +167,123 @@ html {
 
 .custom-table tbody tr:last-child td {
     border-bottom: none;
+}
+
+.custom-form {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    color: #ffffff;
+}
+
+.custom-form .form-label {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.custom-form .form-control,
+.custom-form .form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+::placeholder {
+    color: rgb(161, 161, 161) !important;
+}
+
+.custom-form .form-control:focus,
+.custom-form .form-select:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    background-color: inherit;
+    color: inherit;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}
+
+.custom-form .btn-primary {
+    background-color: rgba(255, 255, 255, 0.3);
+    border: none;
+    margin: 0 auto;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.custom-form .btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.custom-form .btn-primary:active {
+    background-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(0);
+}
+
+.alert {
+    background-color: rgba(178, 40, 40, 0.2);
+    border: 2px solid rgba(255, 0, 0, 0.5);
+    color: #fab7b7;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.my-btn-primary {
+    background-color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    border: none;
+    margin: 0 auto;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.my-btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.my-btn-primary:active {
+    background-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(0);
+}
+
+.my-btn-sec {
+    background-color: transparent;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    margin: 0 auto;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.my-btn-sec:hover {
+    filter: drop-shadow(0 0 2px white);
+    color: #fff;
+}
+
+.my-btn-sec:active {
+    opacity: 0.5;
 }

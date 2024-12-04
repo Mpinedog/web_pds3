@@ -1,7 +1,7 @@
-<div class="container mt-5">
-  <h1 class="mb-4">Edit Locker</h1>
+<h1 class="mb-4 my-title">Edición de casillero</h1>
 
-  <%= form_with(model: @locker, url: locker_path(@locker), local: true) do |form| %>
+
+  <%= form_with(model: @locker, url: locker_path(@locker), local: true, html: { class: 'custom-form' }) do |form| %>
     <% if @locker.errors.any? %>
       <div class="alert alert-danger" role="alert">
         <h4 class="alert-heading"><%= pluralize(@locker.errors.count, "error") %> prevented this locker from being saved:</h4>
@@ -14,24 +14,22 @@
     <% end %>
 
     <div class="mb-3">
-      <%= form.label :name, "Locker Name", class: "form-label" %>
+      <%= form.label :name, "Nombre", class: "form-label" %>
       <%= form.text_field :name, class: "form-control", value: @locker.name %>
     </div>
 
     <div class="mb-3">
-      <%= form.label :password, "Access Key", class: "form-label" %>
+      <%= form.label :password, "Contraseña", class: "form-label" %>
       <%= form.text_field :password, maxlength: 4,class: "form-control" %>
     </div>
 
     <div class="mb-3">
-      <%= form.label :owner_email, "Associated User Email", class: "form-label" %>
-      <%= form.collection_select :owner_email, User.all, :email, :email, { prompt: "Select an email" }, class: "form-select" %>
+      <%= form.label :owner_email, "Email", class: "form-label" %>
+      <%= form.collection_select :owner_email, User.all, :email, :email, { prompt: "Seleccione un email" }, class: "form-select" %>
     </div>
 
     <div class="mb-3">
-      <%= form.submit "Update Locker", class: "btn btn-primary w-100" %>
+      <%= form.submit "Actualizar casillero", class: "btn btn-primary w-100" %>
+      <%= link_to 'Cancelar', locker_path(@locker), class: "btn btn-outline-secondary w-100 mt-2" %>
     </div>
   <% end %>
-
-  <%= link_to 'Cancel', locker_path(@locker), class: "btn btn-secondary w-100 mt-2" %>
-</div>

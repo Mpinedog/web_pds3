@@ -1,6 +1,9 @@
-<div class="container mt-5">
-  <h2 class='text-center'>Lista de Casilleros</h2>
-  <%= link_to 'Crear Nuevo Casillero', new_locker_path, class: 'btn btn-success mb-3' %>
+<h1 class='text-center mb-4 my-title'>Lista de Casilleros</h1>
+
+<div class="container">
+  <div class="d-flex">
+    <%= link_to 'Crear Nuevo Casillero', new_locker_path, class: 'my-btn-primary mb-3 mx-auto' %>
+  </div>
   <table class="custom-table">
     <thead>
       <tr>
@@ -19,7 +22,7 @@
           <td><%= locker.user.try(:username) %></td>
           <td><%= locker.manager.try(:name) %></td>
           <td>
-            <%= link_to 'Ver', locker_path(locker), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Ver', locker_path(locker), class: 'my-btn-primary btn-sm' %>
           </td>
         </tr>
       <% end %>

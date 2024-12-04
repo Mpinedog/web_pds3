@@ -1,12 +1,8 @@
 <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-<div class="container mt-5 col-xl-4 col-md-8 col-12">
-  <div class="card">
-    <div class="card-header text-center bg-primary text-white">
-      <h2>Iniciar Sesión</h2>
-    </div>
-    <div class="card-body">
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<h1 class='mb-4 my-title'>Inicio de sesión</h1>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'custom-form' }) do |f| %>
         <div class="mb-3">
           <%= f.label :email, 'Correo Electrónico', class: 'form-label' %>
           <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
@@ -25,22 +21,19 @@
         <% end %>
 
         <div class="d-grid gap-2">
-          <%= f.submit "Iniciar Sesión", class: 'btn btn-primary btn-lg' %>
+          <%= f.submit "Iniciar Sesión", class: 'btn btn-primary btn-lg mb-2' %>
+        </div>
+
+        <div class="text-center mt-3">
+          <% if current_user %>
+            <h2><%= current_user.email %></h2>
+          <% else %>
+            <h2></h2>
+            
+            <% if devise_mapping.omniauthable? %>
+              <%= link_to "Iniciar sesión con Google", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: "false" }, class: 'my-btn-sec' %>
+            <% end %>
+          <% end %>
+          <%= link_to "¿No tienes una cuenta? Regístrate", new_registration_path(resource_name), class: 'btn btn-link text-muted mt-4' %>
         </div>
       <% end %>
-
-      <div class="text-center mt-3">
-        <% if current_user %>
-          <h2><%= current_user.email %></h2>
-        <% else %>
-          <h2></h2>
-          
-          <% if devise_mapping.omniauthable? %>
-            <%= link_to "Iniciar sesión con Google", user_google_oauth2_omniauth_authorize_path, method: :post, data: { turbo: "false" }, class: 'btn btn-outline-primary mt-2' %>
-          <% end %>
-        <% end %>
-        <%= link_to "¿No tienes una cuenta? Regístrate", new_registration_path(resource_name), class: 'btn btn-link' %>
-      </div>
-    </div>
-  </div>
-</div>

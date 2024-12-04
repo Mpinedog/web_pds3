@@ -1,4 +1,6 @@
 class MetricsController < ApplicationController
+  before_action :authenticate_user!
+  
   def index
     @lockers = current_user.lockers # Obtener casilleros asociados al usuario actual
 

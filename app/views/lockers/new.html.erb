@@ -1,6 +1,8 @@
-<%= form_with(model: @locker, local: true) do |form| %>
+<h1 class="mb-4 my-title">Creación de casillero</h1>
+
+<%= form_with(model: @locker, local: true, html: {class: 'custom-form'}) do |form| %>
   <% if @locker.errors.any? %>
-    <div class="alert alert-danger">
+    <div class="alert">
       <h4><%= pluralize(@locker.errors.count, "error") %> impidieron que este casillero se guardara:</h4>
       <ul>
         <% @locker.errors.full_messages.each do |message| %>
@@ -26,6 +28,6 @@
   </div>
 
   <div class="mb-3">
-    <%= form.submit "Guardar Casillero", class: "btn btn-primary" %>
+    <%= form.submit "Guardar Casillero", class: "btn btn-primary d-block" %>
   </div>
 <% end %>

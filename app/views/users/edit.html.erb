@@ -1,4 +1,6 @@
-<%= form_with(model: @user, local: true, html: { class: 'shadow p-4 bg-white rounded' }) do |f| %>
+<h1 class="mb-4 my-title">Edición de usuario</h1>
+
+<%= form_with(model: @user, local: true, html: { class: 'custom-form' }) do |f| %>
   <% if @user.errors.any? %>
     <div class="alert alert-danger">
       <h4 class="alert-heading">

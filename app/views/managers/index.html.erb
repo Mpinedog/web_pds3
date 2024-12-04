@@ -1,23 +1,23 @@
+<h1 class='text-center mb-4 my-title'>Lista de Controladores</h1>
+
 <div class="container my-5">
   <div class="row g-4">
     <div class="col-md-6">
-      <div class="shadow-sm h-100">
-        <div class="text-center my-card">
-          <h5 class="card-title">Create New Controller</h5>
-          <p class="card-text">Add a new controller to your list.</p>
-          <%= link_to 'Create Controller', new_manager_path, class: 'btn btn-success btn-lg mt-3' %>
-        </div>
+      <div class="text-center my-card p-5">
+        <h5 class="card-title">Create New Controller</h5>
+        <p class="card-text">Add a new controller to your list.</p>
+        <%= link_to 'Create Controller', new_manager_path, class: 'my-btn-primary btn-lg mt-3' %>
       </div>
     </div>
 
     <div class="col-md-6">
-      <div class="my-card shadow-sm h-100">
+      <div class="my-card p-4">
         <div class="card-body">
           <h5 class="card-title">List of Controllers</h5>
           <% if @managers.any? %>
             <ul class="list-group mt-3">
               <% @managers.each do |manager| %>
-                <li class="list-group-item">
+                <li class="list-group-item lister">
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
                       <strong>Name:</strong> <%= manager.name %><br>
@@ -30,11 +30,11 @@
                           <% end %>
                         </ul>
                       <% else %>
-                        <span class="text-muted">No associated lockers</span>
+                        <span class="">None</span>
                       <% end %>
                     </div>
                     <div>
-                      <%= link_to 'View', manager_path(manager), class: 'btn btn-primary btn-sm' %>
+                      <%= link_to 'View', manager_path(manager), class: 'my-btn-sec btn-sm' %>
                     </div>
                   </div>
                 </li>
