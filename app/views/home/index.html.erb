@@ -1,7 +1,7 @@
 <div class="container my-5">
   <section class="mb-5">
-    <div class="card shadow-sm">
-      <div class="card-header bg-primary text-white">
+    <div class="my-card">
+      <div class="card-header bg-secondary text-white">
         <h2 class="mb-0">User Information</h2>
       </div>
       
@@ -9,7 +9,7 @@
   </section>
 
   <section class="mb-5">
-    <div class="card shadow-sm">
+    <div class="my-card">
       <div class="card-header bg-secondary text-white">
         <h3 class="mb-0">Lockers</h3>
       </div>
@@ -17,8 +17,8 @@
         <% if @lockers.any? %>
           <ul class="list-group">
             <% @lockers.each do |locker| %>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <%= link_to locker.name, locker_path(locker), class: "text-decoration-none" %>
+              <li class="list-group-item lister d-flex justify-content-between align-items-center">
+                <%= link_to locker.name, locker_path(locker), class: "text-decoration-none locker-link" %>
               </li>
             <% end %>
           </ul>
@@ -30,16 +30,16 @@
   </section>
 
   <section class="mb-5">
-    <div class="card shadow-sm">
-      <div class="card-header bg-info text-white">
+    <div class="my-card">
+      <div class="card-header bg-secondary text-white">
         <h3 class="mb-0">Controllers</h3>
       </div>
       <div class="card-body">
         <% if @managers.any? %>
           <ul class="list-group">
             <% @managers.each do |manager| %>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <%= link_to manager.name, manager_path(manager), class: "text-decoration-none" %>
+              <li class="list-group-item lister d-flex justify-content-between align-items-center">
+                <%= link_to manager.name, manager_path(manager), class: "text-decoration-none locker-link" %>
               </li>
             <% end %>
           </ul>
@@ -51,16 +51,16 @@
   </section>
 
   <section class="mb-5">
-    <div class="card shadow-sm">
-      <div class="card-header bg-warning text-dark">
+    <div class="my-card">
+      <div class="card-header bg-secondary text-dark">
         <h3 class="mb-0">Models</h3>
       </div>
       <div class="card-body">
         <% if @predictors.any? %>
           <ul class="list-group">
             <% @predictors.each do |predictor| %>
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <%= link_to " #{predictor.name}", predictor_path(predictor), class: "text-decoration-none" %>
+              <li class="list-group-item lister d-flex justify-content-between align-items-center">
+                <%= link_to " #{predictor.name}", predictor_path(predictor), class: "text-decoration-none locker-link" %>
               </li>
             <% end %>
           </ul>

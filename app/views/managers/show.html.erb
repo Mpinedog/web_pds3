@@ -37,7 +37,7 @@
       <% if @manager.lockers.any? %>
         <ul class="list-group mb-3">
           <% @manager.lockers.each do |locker| %>
-            <li class="list-group-item d-flex justify-content-between bg-secondary text-white align-items-center">
+            <li class="list-group-item lister d-flex justify-content-between text-white align-items-center">
               <%= locker.name %>
               <%= form_with url: unassign_locker_manager_path(@manager, locker_id: locker.id), method: :delete, local: true do %>
                 <%= submit_tag "Unassign", data: { confirm: "Are you sure you want to unassign this locker?" }, class: "btn btn-danger btn-sm" %>

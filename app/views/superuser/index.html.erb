@@ -1,9 +1,9 @@
-<h1 class="text-center mb-4">Superuser Dashboard</h1>
+<h1 class="my-title mb-4">Superuser Dashboard</h1>
 
 <div class="container">
   <div class="row mb-4">
     <div class="col-md-3">
-      <div class="card text-center">
+      <div class="my-card text-center">
         <div class="card-body">
           <h5 class="card-title">Users</h5>
           <p class="card-text display-6"><%= @user_count %></p>
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-center">
+      <div class="my-card text-center">
         <div class="card-body">
           <h5 class="card-title">Controllers</h5>
           <p class="card-text display-6"><%= @manager_count %></p>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-center">
+      <div class="my-card text-center">
         <div class="card-body">
           <h5 class="card-title">Success Rate of Openings</h5>
           <p class="card-text display-6"><%= number_to_percentage(@success_rate_openings, precision: 2) %></p>
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card text-center">
+      <div class="my-card text-center">
         <div class="card-body">
           <h5 class="card-title">Active Lockers</h5>
           <p class="card-text display-6"><%= @active_lockers_count %></p>
@@ -38,7 +38,7 @@
 
   <div class="row mb-4">
     <div class="col-md-6">
-      <div class="card text-center">
+      <div class="my-card text-center">
         <div class="card-body">
           <h5 class="card-title">Most Opened Locker</h5>
           <% if @most_opened_locker %>
@@ -51,7 +51,7 @@
       </div>
     </div>
     <div class="col-md-6">
-      <div class="card text-center">
+      <div class="my-card text-center">
         <div class="card-body">
           <h5 class="card-title">Locker with Most Failed Attempts</h5>
           <% if @most_failed_attempts_locker %>
@@ -66,7 +66,7 @@
   </div>
   <div class="row mb-4">
   <div class="col-md-6">
-    <div class="card text-center">
+    <div class="my-card text-center">
       <div class="card-body">
         <h5 class="card-title">Total Weekly Openings</h5>
         <p class="card-text display-6"><%= @total_weekly_openings %></p>
@@ -74,7 +74,7 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="card text-center">
+    <div class="my-card text-center">
       <div class="card-body">
         <h5 class="card-title">Locker Most Opened This Week</h5>
         <% if @most_weekly_opened_locker %>
@@ -89,9 +89,9 @@
 </div>
 
   <!-- Tabla de métricas por locker -->
-  <div class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead class="table-dark">
+  <div class="">
+    <table class="custom-table">
+      <thead class="">
         <tr>
           <th scope="col">Locker</th>
           <th scope="col">Daily Openings</th>
