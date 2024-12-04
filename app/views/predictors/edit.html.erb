@@ -1,12 +1,11 @@
-<div class="container mt-5">
-  <h2>Editar Predictor</h2>
-  <%= form_with(model: @predictor, local: true) do |f| %>
-    <h3>Editar Signos</h3>
-    
+<h1 class="mb-4 my-title">Editar Predictor</h1>
+
+<div class="container">
+  <%= form_with(model: @predictor, local: true, html: { class: 'custom-form2' }) do |f| %>
     <div class="row">
       <% @predictor.signs.each_with_index do |sign, index| %>
         <div class="col-md-4 mb-4">
-          <div class="card">
+          <div class="my-card">
             <div class="card-body">
               <h5 class="card-title">Signo <%= index + 1 %></h5>
               <%= f.fields_for :signs, sign do |sign_form| %>
@@ -33,7 +32,9 @@
       <% end %>
     </div>
 
-    <%= f.submit 'Guardar Cambios', class: 'btn btn-primary' %>
-    <%= link_to 'Cancelar', predictor_path(@predictor), class: 'btn btn-secondary ml-2' %>
+    <div class="mt-4 d-flex justify-content-center align-items-center gap-5 w-50 mx-auto">
+      <%= f.submit 'Guardar Cambios', class: 'my-btn-primary flex-equal' %>
+      <%= link_to 'Cancelar', predictor_path(@predictor), class: 'my-btn-sec flex-equal' %>
+    </div>
   <% end %>
 </div>

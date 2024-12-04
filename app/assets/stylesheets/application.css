@@ -287,3 +287,40 @@ html {
 .my-btn-sec:active {
     opacity: 0.5;
 }
+
+.custom-form2 {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    margin: 0 auto;
+    color: #ffffff;
+}
+
+.custom-form2 .form-label {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.custom-form2 .form-control,
+.custom-form2 .form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-form2 .form-control:focus,
+.custom-form2 .form-select:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    background-color: inherit;
+    color: inherit;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+}

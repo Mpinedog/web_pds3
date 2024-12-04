@@ -1,37 +1,39 @@
-<!-- app/views/modelos/show.html.erb -->
-<div class="container mt-5">
-  <h2>Detalles del Modelo <%= @predictor.id %></h2>
-  
-  <p><strong>Archivo .txt:</strong> <%= @predictor.txt_file.filename.to_s if @predictor.txt_file.attached? %></p>
+<h1 class="mb-4 my-title">Detalles del Modelo <%= @predictor.id %></h1>
 
+<div class="container">
+  <div class="my-card w-75 mx-auto p-5">
+  <h4><strong>Archivo .txt:</strong> <%= @predictor.txt_file.filename.to_s if @predictor.txt_file.attached? %></h4>
+  <br />
   <h3>Signos</h3>
-  <div class="row">
-    <% @predictor.signs.each do |sign| %>
-      <div class="col-md-4 col-lg-2 mb-4">
-        <div class="card text-center">
-          <% if sign.image.attached? %>
-            <%= image_tag sign.image, class: 'card-img-top img-fluid', size: '150x150' %>
-          <% else %>
-            <p>No hay imagen disponible.</p>
-          <% end %>
-          
-          <div class="card-body">
-            <h5 class="card-title"><%= sign.sign_name %></h5>
-          </div>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 justify-content-center">
+  <% @predictor.signs.each do |sign| %>
+    <div class="col mb-4">
+      <div class="card text-center">
+        <% if sign.image.attached? %>
+          <%= image_tag sign.image, class: 'card-img-top img-fluid', alt: sign.sign_name %>
+        <% else %>
+          <p>No hay imagen disponible.</p>
+        <% end %>
+        
+        <div class="card-body">
+          <h5 class="card-title"><%= sign.sign_name %></h5>
         </div>
       </div>
-    <% end %>
-  </div>
-  
-  <% if current_user&.super_user? %>
-    <div class="d-flex gap-2">
-      <%= link_to 'Editar', edit_predictor_path(@predictor), class: 'btn btn-warning btn-sm' %>
-      
-      <%= form_with url: predictor_path(@predictor), method: :delete, class: 'd-inline' do |form| %>
-        <%= form.submit 'Eliminar', class: 'btn btn-danger btn-sm', data: { confirm: '¿Estás seguro de que deseas eliminar este modelo?' } %>
-      <% end %>
     </div>
   <% end %>
+</div>
+
   
-  <%= link_to 'Volver a la Lista de Modelos', predictors_path, class: 'btn btn-secondary mt-3' %>
+  <% if current_user&.super_user? %>
+    <div class="mt-4 d-flex justify-content-center align-items-center gap-5 w-50 mx-auto">
+      <%= link_to 'Editar', edit_predictor_path(@predictor), class: 'my-btn-primary flex-equal btn-lg' %>
+      
+      <%= form_with url: predictor_path(@predictor), method: :delete, class: 'd-inline flex-equal' do |form| %>
+        <%= form.submit 'Eliminar', class: 'btn btn-outline-danger w-100 btn-lg', data: { confirm: '¿Estás seguro de que deseas eliminar este modelo?' } %>
+      <% end %>
+
+      <%= link_to 'Volver', predictors_path, class: 'my-btn-sec flex-equal btn-lg' %>
+    </div>
+  <% end %>
+  </div>
 </div>

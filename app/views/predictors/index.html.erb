@@ -1,6 +1,11 @@
 <h1 class='mb-4 my-title'>Modelos Disponibles</h1>
 
-<div class="container mt-5">
+<div class="container">
+  <% if current_user&.super_user? %>
+    <div class="d-flex">
+      <%= link_to 'Crear nuevo Modelo', new_predictor_path, class: 'my-btn-primary mb-3 mx-auto' %>
+    </div>
+  <% end %>
   <table class="custom-table">
     <thead>
       <tr>
@@ -28,13 +33,10 @@
           <% end %>
 
           <td>
-            <%= link_to 'Ver', predictor_path(predictor), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Ver', predictor_path(predictor), class: 'my-btn-primary btn-sm' %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <% if current_user&.super_user? %>
-    <%= link_to 'Crear nuevo Modelo', new_predictor_path, class: 'btn btn-success' %>
-  <% end %>
 </div>

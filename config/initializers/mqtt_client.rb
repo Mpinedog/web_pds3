@@ -39,27 +39,29 @@ Thread.new do
 end
 
 # Verificar periódicamente si los managers están desconectados
-Thread.new do
-  Rails.logger.info("Iniciando hilo de verificación de estado de managers")
-  loop do
-    begin
-      Manager.where(active: true).find_each do |manager|
-        last_message_time = LAST_MESSAGE_TIMESTAMPS[manager.mac_address]
-        if last_message_time.nil? || Time.current - last_message_time > 600 # 30 segundos
-          manager.update(active: false)
-          Rails.logger.info("Manager #{manager.id} marcado como desconectado por inactividad.")
+Rails.application.config.after_initialize do
+  Thread.new do
+    Rails.logger.info("Iniciando hilo de verificación de estado de managers")
+    loop do
+      begin
+        Manager.where(active: true).find_each do |manager|
+          last_message_time = LAST_MESSAGE_TIMESTAMPS[manager.mac_address]
+          if last_message_time.nil? || Time.current - last_message_time > 600 # 30 segundos
+            manager.update(active: false)
+            Rails.logger.info("Manager #{manager.id} marcado como desconectado por inactividad.")
 
-          if manager.user.present?
-            UserMailer.notify_disconection(manager.user, manager).deliver_now
-            Rails.logger.info("Correo de desconexión enviado a #{manager.user.email}")
-          else
-            Rails.logger.warn("Manager #{manager.id} sin usuario asociado. No se envió correo de desconexión.")
+            if manager.user.present?
+              UserMailer.notify_disconection(manager.user, manager).deliver_now
+              Rails.logger.info("Correo de desconexión enviado a #{manager.user.email}")
+            else
+              Rails.logger.warn("Manager #{manager.id} sin usuario asociado. No se envió correo de desconexión.")
+            end
           end
         end
-      end
       sleep(600) # Verificar cada 10 segundos
-    rescue => e
-      Rails.logger.error("Error en el monitoreo de desconexión: #{e.message}")
+      rescue => e
+        Rails.logger.error("Error en el monitoreo de desconexión: #{e.message}")
+      end
     end
   end
 end
